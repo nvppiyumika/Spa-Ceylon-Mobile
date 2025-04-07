@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "spa_ceylon_mobile" "\0"
+            VALUE "FileDescription", "spaceylon" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "spa_ceylon_mobile" "\0"
+            VALUE "InternalName", "spaceylon" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2025 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "spa_ceylon_mobile.exe" "\0"
-            VALUE "ProductName", "spa_ceylon_mobile" "\0"
+            VALUE "OriginalFilename", "spaceylon.exe" "\0"
+            VALUE "ProductName", "spaceylon" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END
