@@ -26,6 +26,23 @@ class _RegisterPageState extends State<RegisterPage> {
   bool _obscurePassword = true;
   bool _obscureConfirm = true;
 
+  String? _selectedNationality;
+  String? _selectedGender;
+
+  final List<String> _nationalities = [
+    'Sri Lankan',
+    'Indian',
+    'British',
+    'American',
+    'Other',
+  ];
+
+  final List<String> _genders = [
+    'Male',
+    'Female',
+    'Other',
+  ];
+
   void _togglePasswordVisibility() {
     setState(() {
       _obscurePassword = !_obscurePassword;
@@ -60,9 +77,9 @@ class _RegisterPageState extends State<RegisterPage> {
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        Color.fromRGBO(191, 155, 67, 1),
+                        Color.fromRGBO(183, 143, 43, 1),
                         Color.fromRGBO(217, 182, 106, 1),
-                        Color.fromRGBO(191, 155, 67, 1)
+                        Color.fromRGBO(183, 143, 43, 1)
                       ],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
@@ -125,6 +142,34 @@ class _RegisterPageState extends State<RegisterPage> {
                         buildTextField("Enter Email"),
                         buildTextField("Enter Address"),
                         buildTextField("Enter Mobile"),
+
+                        Row(
+                          children: [
+                            Expanded(
+                              child: buildDropdownField(
+                                hint: "Nationality",
+                                value: _selectedNationality,
+                                items: _nationalities,
+                                onChanged: (value) {
+                                  setState(() => _selectedNationality = value);
+                                },
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: buildDropdownField(
+                                hint: "Gender",
+                                value: _selectedGender,
+                                items: _genders,
+                                onChanged: (value) {
+                                  setState(() => _selectedGender = value);
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        buildTextField("Enter NIC"),
                         buildPasswordField(
                           hint: "Enter Password",
                           obscure: _obscurePassword,
@@ -143,9 +188,9 @@ class _RegisterPageState extends State<RegisterPage> {
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               colors: [
-                                Color.fromRGBO(191, 155, 67, 1),
+                                Color.fromRGBO(183, 143, 43, 1),
                                 Color.fromRGBO(217, 182, 106, 1),
-                                Color.fromRGBO(191, 155, 67, 1),
+                                Color.fromRGBO(183, 143, 43, 1)
                               ],
                             ),
                             borderRadius: BorderRadius.circular(8),
@@ -251,6 +296,41 @@ class _RegisterPageState extends State<RegisterPage> {
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide.none,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildDropdownField({
+    required String hint,
+    required String? value,
+    required List<String> items,
+    required ValueChanged<String?> onChanged,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.grey[200],
+          borderRadius: BorderRadius.circular(10),
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 14),
+        child: DropdownButtonFormField<String>(
+          value: value,
+          hint: Text(hint),
+          items: items
+              .map((item) => DropdownMenuItem(
+                    value: item,
+                    child: Text(item),
+                  ))
+              .toList(),
+          onChanged: onChanged,
+          dropdownColor: Colors.white,
+          iconEnabledColor: Colors.grey[700],
+          style: const TextStyle(color: Colors.black),
+          decoration: const InputDecoration(
+            border: InputBorder.none,
           ),
         ),
       ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MyApp());
-}
+//void main() {
+//  runApp(MyApp());
+//}
 
 class MyApp extends StatelessWidget {
   @override
@@ -57,9 +57,9 @@ class _LoginPageState extends State<LoginPage> {
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          Color.fromRGBO(191, 155, 67, 1),
+                          Color.fromRGBO(183, 143, 43, 1),
                           Color.fromRGBO(217, 182, 106, 1),
-                          Color.fromRGBO(191, 155, 67, 1)
+                          Color.fromRGBO(183, 143, 43, 1)
                         ],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
@@ -158,9 +158,9 @@ class _LoginPageState extends State<LoginPage> {
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               colors: [
-                                Color.fromRGBO(191, 155, 67, 1),
+                                Color.fromRGBO(183, 143, 43, 1),
                                 Color.fromRGBO(217, 182, 106, 1),
-                                Color.fromRGBO(191, 155, 67, 1),
+                                Color.fromRGBO(183, 143, 43, 1)
                               ],
                             ),
                             borderRadius: BorderRadius.circular(8),
@@ -221,8 +221,8 @@ class _LoginPageState extends State<LoginPage> {
                                 child: Center(
                                   child: Image.asset(
                                     icons[index],
-                                    width: 30,
-                                    height: 30,
+                                    width: 60,
+                                    height: 60,
                                     fit: BoxFit.contain,
                                   ),
                                 ),
