@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:spaceylon/Home.dart';
-import 'package:spaceylon/login_page.dart';
-import 'package:spaceylon/register_page.dart';
+import 'package:spaceylon/Login.dart';
+import 'package:spaceylon/Register.dart';
+
 
 void main() {
   runApp( MyApp());

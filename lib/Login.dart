@@ -70,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     child: Center(
                       child: Image.asset(
-                        'assets/images/spaceylonlogo.png',
+                        'assets/images/spaCeylonLogo.png',
                         height: 175,
                         fit: BoxFit.contain,
                       ),
