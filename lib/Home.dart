@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'components.dart';
+import 'package:spa_ceylon_mobile/widgets/top_greeting_bar.dart';
+//import 'package:spa_ceylon_mobile/widgets/bottom_nav_bar.dart';
 
-// void main() {
-//   runApp(MyApp());
-// }
+//void main() {
+//  runApp(MyApp());
+//}
 
 class MyApp extends StatelessWidget {
   @override
@@ -23,8 +24,6 @@ class WellnessHomePage extends StatefulWidget {
 }
 
 class _WellnessHomePageState extends State<WellnessHomePage> {
-  int _selectedIndex = 0;
-
   final List<Map<String, String>> categories = [
     {'label': 'Baby Care', 'image': 'assets/images/baby_care.png'},
     {'label': 'Skin Wellness', 'image': 'assets/images/skin_care.png'},
@@ -40,12 +39,6 @@ class _WellnessHomePageState extends State<WellnessHomePage> {
     'assets/images/banner1.jpg',
     'assets/images/banner2.jpg',
   ];
-
-  void _onNavTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -170,7 +163,6 @@ class _WellnessHomePageState extends State<WellnessHomePage> {
           ),
         ],
       ),
-      bottomNavigationBar: bottomNavBar(_selectedIndex, _onNavTapped),
     );
   }
 }

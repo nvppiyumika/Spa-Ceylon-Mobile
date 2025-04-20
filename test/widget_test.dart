@@ -7,8 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:spaceylon/main.dart';
-
+import 'package:spa_ceylon_mobile/Login.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {

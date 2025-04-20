@@ -90,7 +90,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   child: Center(
                     child: Image.asset(
-                      'assets/images/spaCeylonLogo.png',
+                      'assets/images/spaceylonlogo.png',
                       height: 175,
                       fit: BoxFit.contain,
                     ),
