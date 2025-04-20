@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "461913799346",
+    "project_id": "spaceylonmobile",
+    "storage_bucket": "spaceylonmobile.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:461913799346:android:dcb58cfd6d98048f82a7ab",
+        "android_client_info": {
+          "package_name": "com.example.spa_ceylon_mobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqmO8AaDnY9vGSeZUxJwTxo7zy-6BcAWQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

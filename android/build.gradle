@@ -1,3 +1,18 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        // START: FlutterFire Configuration
+        classpath 'com.google.gms:google-services:4.3.15'
+        // END: FlutterFire Configuration
+        classpath 'com.android.tools.build:gradle:8.2.1' // ✅ THIS is what you need
+    }
+}
+
 allprojects {
     repositories {
         google()
@@ -6,9 +21,11 @@ allprojects {
 }
 
 rootProject.buildDir = "../build"
+
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
 }
+
 subprojects {
     project.evaluationDependsOn(":app")
 }
