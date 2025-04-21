@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:spa_ceylon_mobile/Home.dart';
+import 'register.dart';
 
-//void main() {
-//  runApp(MyApp());
-//}
-
-class MyApp extends StatelessWidget {
+class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Wellness App',
       debugShowCheckedModeBanner: false,
       home: LoginPage(),
+      routes: {
+        '/register': (context) => RegisterPage(),
+        '/home': (context) => Home(),
+      },
     );
   }
 }
@@ -70,7 +72,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     child: Center(
                       child: Image.asset(
-                        'assets/images/spaceylonlogo.png',
+                        'assets/images/spaCeylonLogo.png',
                         height: 175,
                         fit: BoxFit.contain,
                       ),
@@ -166,7 +168,10 @@ class _LoginPageState extends State<LoginPage> {
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              // Handle login action here
+                              Navigator.pushNamed(context, '/home');
+                            },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.transparent,
                               shadowColor: Colors.transparent,

@@ -1,16 +1,18 @@
+
 import 'package:flutter/material.dart';
+import 'Login.dart';
 
-void main() {
-  runApp(MyApp());
-}
 
-class MyApp extends StatelessWidget {
+class Register extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Wellness App',
       debugShowCheckedModeBanner: false,
       home: RegisterPage(),
+      routes: {
+        '/login': (context) => LoginPage(),
+      },
     );
   }
 }
@@ -90,7 +92,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   child: Center(
                     child: Image.asset(
-                      'assets/images/spaceylonlogo.png',
+                      'assets/images/spaCeylonLogo.png',
                       height: 175,
                       fit: BoxFit.contain,
                     ),
@@ -196,7 +198,10 @@ class _RegisterPageState extends State<RegisterPage> {
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              // Handle sign up logic here
+                              Navigator.pushNamed(context, '/login');
+                            },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.transparent,
                               shadowColor: Colors.transparent,
@@ -227,7 +232,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                             TextButton(
                               onPressed: () {
-                                Navigator.pushNamed(context, '/Login');
+                                Navigator.pushNamed(context, '/login');
                               },
                               child: const Text(
                                 'Login Here',

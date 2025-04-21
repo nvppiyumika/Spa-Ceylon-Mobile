@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'components.dart';
+import 'package:spa_ceylon_mobile/widgets/top_greeting_bar.dart';
+import 'widgets/BottomNavBar.dart';
+
 
 void main() {
   runApp(MyApp());
@@ -102,7 +104,10 @@ class _FragrancesPageState extends State<FragrancesPage> {
           ),
         ],
       ),
-      bottomNavigationBar: bottomNavBar(_selectedIndex, _onNavTapped),
+      bottomNavigationBar: BottomNavBar(
+        selectedIndex: _selectedIndex,
+        onItemTapped: _onNavTapped,
+      ),
     );
   }
 

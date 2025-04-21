@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:spa_ceylon_mobile/widgets/top_greeting_bar.dart';
-//import 'package:spa_ceylon_mobile/widgets/bottom_nav_bar.dart';
+import 'package:spa_ceylon_mobile/widgets/BottomNavBar.dart';
 
-//void main() {
-//  runApp(MyApp());
-//}
 
-class MyApp extends StatelessWidget {
+
+class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -159,6 +157,7 @@ class _WellnessHomePageState extends State<WellnessHomePage> {
                   ),
                 ),
               ],
+               
             ),
           ),
         ],

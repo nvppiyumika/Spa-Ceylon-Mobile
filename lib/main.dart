@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spa_ceylon_mobile/Login.dart';
 import 'package:spa_ceylon_mobile/home.dart';
 import 'package:spa_ceylon_mobile/messages.dart';
 import 'package:spa_ceylon_mobile/Promotions.dart';
@@ -13,7 +14,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp(Login());
 }
 
 class MyApp extends StatefulWidget {
