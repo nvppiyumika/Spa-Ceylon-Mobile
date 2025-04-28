@@ -232,7 +232,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                             TextButton(
                               onPressed: () {
-                                Navigator.pushNamed(context, '/login');
+                                Navigator.of(context).push(MaterialPageRoute(builder:(context)=> LoginPage()));
                               },
                               child: const Text(
                                 'Login Here',
