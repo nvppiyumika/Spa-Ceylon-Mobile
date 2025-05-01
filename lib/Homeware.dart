@@ -11,17 +11,17 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Wellness App',
       debugShowCheckedModeBanner: false,
-      home: MindAndBodyPage(),
+      home: HomewarePage(),
     );
   }
 }
 
-class MindAndBodyPage extends StatefulWidget {
+class HomewarePage extends StatefulWidget {
   @override
-  _MindAndBodyPageState createState() => _MindAndBodyPageState();
+  _HomewarePageState createState() => _HomewarePageState();
 }
 
-class _MindAndBodyPageState extends State<MindAndBodyPage> {
+class _HomewarePageState extends State<HomewarePage> {
   int _selectedIndex = 0;
 
   void _onNavTapped(int index) {
@@ -59,7 +59,7 @@ class _MindAndBodyPageState extends State<MindAndBodyPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "MIND & BODY WELLNESS",
+                        " HOMEWARE",
                         style: TextStyle(
                           fontSize: 18,
                           color: Colors.white,
@@ -149,7 +149,7 @@ class _MindAndBodyPageState extends State<MindAndBodyPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Frankincense - Face Wash For Men 150ml',
+                  'Cardamom Rose - Fine Porcelain - Coffee Mug',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
                 ),
                 SizedBox(height: 4),
@@ -169,7 +169,7 @@ class _MindAndBodyPageState extends State<MindAndBodyPage> {
                 ),
                 SizedBox(height: 4),
                 Text(
-                  'Rs. 4,550',
+                  'Rs. 2,950',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 6),

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'Home.dart';
-import 'Skin_care.dart'; // 👈 make sure this file name is correct
+import 'Skin_care.dart';
 import 'components.dart';
 import 'Mind_&_Body.dart';
+import 'Homeware.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Wellness App',
       debugShowCheckedModeBanner: false,
-      home: MindAndBodyPage(), // 👈 This runs your SkinCare page
+      home: HomewarePage(), // 👈 This runs your SkinCare page
     );
   }
 }
