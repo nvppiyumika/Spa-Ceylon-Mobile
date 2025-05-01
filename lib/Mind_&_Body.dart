@@ -59,7 +59,7 @@ class _MindAndBodyPageState extends State<MindAndBodyPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "MIND & BODY WELLNESS",
+                        "MIND & BODY",
                         style: TextStyle(
                           fontSize: 18,
                           color: Colors.white,

@@ -4,6 +4,7 @@ import 'Skin_care.dart';
 import 'components.dart';
 import 'Mind_&_Body.dart';
 import 'Homeware.dart';
+import 'SingleProduct.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Wellness App',
       debugShowCheckedModeBanner: false,
-      home: HomewarePage(), // 👈 This runs your SkinCare page
+      home: SingleProductPage(), // 👈 This runs your SkinCare page
     );
   }
 }

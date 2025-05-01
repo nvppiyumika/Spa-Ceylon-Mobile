@@ -1,128 +1,267 @@
 import 'package:flutter/material.dart';
 import 'components.dart';
 
-class ProductPage extends StatefulWidget {
-  @override
-  _ProductPageState createState() => _ProductPageState();
+void main() {
+  runApp(MyApp());
 }
 
-class _ProductPageState extends State<ProductPage> {
-  int quantity = 1;
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Wellness App',
+      debugShowCheckedModeBanner: false,
+      home: SingleProductPage(),
+    );
+  }
+}
+
+class SingleProductPage extends StatefulWidget {
+  @override
+  _SingleProductPageState createState() => _SingleProductPageState();
+}
+
+class _SingleProductPageState extends State<SingleProductPage> {
+  int _selectedIndex = 0;
+  int _quantity = 1; // Starting quantity
+
+  void _onNavTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  void _increaseQuantity() {
+    setState(() {
+      _quantity++;
+    });
+  }
+
+  void _decreaseQuantity() {
+    if (_quantity > 1) {
+      setState(() {
+        _quantity--;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Product Details'),
-        backgroundColor: Colors.black,
-      ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Product Image
-            ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Image.asset(
-                'assets/images/product.jpg', // Add your image in assets
-                height: 250,
-                width: double.infinity,
+      body: Stack(
+        children: [
+          // Background image
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/background.jpg"),
                 fit: BoxFit.cover,
               ),
             ),
+          ),
 
-            SizedBox(height: 16),
-
-            // Title
-            Text(
-              'Cardamom Rose - Bath & Shower Gel 250ml',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-
-            SizedBox(height: 8),
-
-            // Price and Payment Options
-            Text('Rs 3,900', style: TextStyle(fontSize: 18)),
-            Text('or 3 X Rs 1,300 with Mintpay / Koko',
-                style: TextStyle(color: Colors.grey)),
-
-            SizedBox(height: 8),
-
-            // Ratings
-            Row(
+          // Main content
+          SafeArea(
+            child: Column(
               children: [
-                Row(
-                  children: List.generate(
-                      5,
-                      (index) =>
-                          Icon(Icons.star, color: Colors.amber, size: 20)),
-                ),
-                SizedBox(width: 5),
-                Text('12 reviews')
-              ],
-            ),
+                topGreetingBar("Githmi"),
 
-            SizedBox(height: 16),
-
-            // Quantity Selector
-            Text('Quantity', style: TextStyle(fontWeight: FontWeight.bold)),
-            Row(
-              children: [
-                IconButton(
-                  icon: Icon(Icons.remove),
-                  onPressed: () {
-                    if (quantity > 1) {
-                      setState(() {
-                        quantity--;
-                      });
-                    }
-                  },
+                // Category title and filter
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 12),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "SKIN WELLNESS",
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1.2,
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            "Filter",
+                            style: TextStyle(fontSize: 14, color: Colors.white),
+                          ),
+                          SizedBox(width: 4),
+                          Icon(Icons.filter_list,
+                              size: 20, color: Colors.white),
+                        ],
+                      )
+                    ],
+                  ),
                 ),
-                Text('$quantity', style: TextStyle(fontSize: 16)),
-                IconButton(
-                  icon: Icon(Icons.add),
-                  onPressed: () {
-                    setState(() {
-                      quantity++;
-                    });
-                  },
+
+                // Product Grid
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16.0, vertical: 8),
+                      child: Center(
+                        child: productCard(),
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),
+          ),
+        ],
+      ),
+      bottomNavigationBar: bottomNavBar(_selectedIndex, _onNavTapped),
+    );
+  }
 
-            SizedBox(height: 16),
-
-            // Description
-            Text(
-              'A mild cleansing formula infused with precious herbs pure aromatic essential oils.',
-              style: TextStyle(fontSize: 16),
-            ),
-
-            SizedBox(height: 24),
-
-            // Buttons
-            ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                side: BorderSide(color: Colors.black),
-                backgroundColor: Colors.white,
-                foregroundColor: Colors.black,
-                minimumSize: Size(double.infinity, 48),
+  Widget productCard() {
+    return Container(
+      width: double.infinity,
+      margin: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+      padding: EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 8,
+            offset: Offset(0, 4),
+          )
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Row 1: Product Image (Square, Large)
+          Center(
+            child: Container(
+              width: 200, // Adjust size to make the image large
+              height: 200, // Make it square
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/skin_care.png'),
+                  fit: BoxFit.cover,
+                ),
+                borderRadius: BorderRadius.circular(16), // Rounded corners
               ),
-              child: Text('Add to cart'),
             ),
-            SizedBox(height: 12),
-            ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,
-                minimumSize: Size(double.infinity, 48),
+          ),
+          SizedBox(height: 12),
+
+          // Row 2: Product Description
+          Text(
+            'Frankincense - Face Wash For Men 150ml',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+          ),
+          SizedBox(height: 6),
+          Row(
+            children: [
+              Icon(Icons.star, size: 14),
+              Icon(Icons.star, size: 14),
+              Icon(Icons.star, size: 14),
+              Icon(Icons.star_half, size: 14),
+              Icon(Icons.star_border, size: 14),
+              SizedBox(width: 6),
+              Text(
+                '(67 Reviews)',
+                style: TextStyle(fontSize: 12),
               ),
-              child: Text('Buy it now'),
-            ),
-          ],
-        ),
+            ],
+          ),
+          SizedBox(height: 6),
+          Text(
+            'Rs. 4,550',
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+                color: Colors.green[700]),
+          ),
+          SizedBox(height: 16),
+
+          // Row 3: Quantity Adjustment with + and - buttons
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                "Quantity: ",
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+              ),
+              IconButton(
+                onPressed: _decreaseQuantity,
+                icon: Icon(Icons.remove),
+                color: Colors.black,
+              ),
+              Text(
+                '$_quantity',
+                style: TextStyle(fontSize: 14),
+              ),
+              IconButton(
+                onPressed: _increaseQuantity,
+                icon: Icon(Icons.add),
+                color: Colors.black,
+              ),
+            ],
+          ),
+
+          SizedBox(height: 8),
+          Text(
+            "A deep-cleansing formula with powerful Ayurveda WonderHerbs to lift-off dust, pollution, impurities & excess surface oil, to minimize skin shine.",
+            style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+          ),
+
+          SizedBox(height: 16),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Color.fromRGBO(191, 155, 67, 1),
+                      Color.fromRGBO(217, 182, 106, 1),
+                      Color.fromRGBO(191, 155, 67, 1),
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.transparent,
+                    shadowColor: Colors.transparent,
+                    foregroundColor: Colors.black,
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                  ),
+                  child: Text("Add to Cart"),
+                ),
+              ),
+
+              // Outlined "Buy Now" button with the same shape as "Add to Cart"
+              OutlinedButton(
+                onPressed: () {},
+                child: Text("Buy Now"),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: Colors.black,
+                  side: BorderSide(color: Colors.black),
+                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.circular(50), // Same rounded shape
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
