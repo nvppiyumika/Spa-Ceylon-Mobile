@@ -151,7 +151,7 @@ class _SingleProductPageState extends State<SingleProductPage> {
               ),
             ),
           ),
-          SizedBox(height: 12),
+          SizedBox(height: 8), // Reduced gap between image and product name
 
           // Row 2: Product Description
           Text(
@@ -183,7 +183,7 @@ class _SingleProductPageState extends State<SingleProductPage> {
           ),
           SizedBox(height: 16),
 
-          // Row 3: Quantity Adjustment with + and - buttons
+          // Row 3: Quantity Adjustment with border around -1+
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -191,19 +191,31 @@ class _SingleProductPageState extends State<SingleProductPage> {
                 "Quantity: ",
                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
               ),
-              IconButton(
-                onPressed: _decreaseQuantity,
-                icon: Icon(Icons.remove),
-                color: Colors.black,
-              ),
-              Text(
-                '$_quantity',
-                style: TextStyle(fontSize: 14),
-              ),
-              IconButton(
-                onPressed: _increaseQuantity,
-                icon: Icon(Icons.add),
-                color: Colors.black,
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                      color: Colors
+                          .black), // Black border around the entire quantity section
+                  borderRadius: BorderRadius.circular(8), // Rounded corners
+                ),
+                child: Row(
+                  children: [
+                    IconButton(
+                      onPressed: _decreaseQuantity,
+                      icon: Icon(Icons.remove),
+                      color: Colors.black,
+                    ),
+                    Text(
+                      '$_quantity',
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    IconButton(
+                      onPressed: _increaseQuantity,
+                      icon: Icon(Icons.add),
+                      color: Colors.black,
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
@@ -219,6 +231,22 @@ class _SingleProductPageState extends State<SingleProductPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+              // Outlined "Add to Cart" button with the same shape as "Buy Now"
+              OutlinedButton(
+                onPressed: () {},
+                child: Text("Add to Cart"),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: Colors.black,
+                  side: BorderSide(color: Colors.black),
+                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.circular(50), // Same rounded shape
+                  ),
+                ),
+              ),
+
+              // Gradient "Buy Now" button with the same shape as "Add to Cart"
               Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
@@ -241,22 +269,7 @@ class _SingleProductPageState extends State<SingleProductPage> {
                       borderRadius: BorderRadius.circular(50),
                     ),
                   ),
-                  child: Text("Add to Cart"),
-                ),
-              ),
-
-              // Outlined "Buy Now" button with the same shape as "Add to Cart"
-              OutlinedButton(
-                onPressed: () {},
-                child: Text("Buy Now"),
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: Colors.black,
-                  side: BorderSide(color: Colors.black),
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(50), // Same rounded shape
-                  ),
+                  child: Text("Buy Now"),
                 ),
               ),
             ],
