@@ -140,18 +140,18 @@ class _SingleProductPageState extends State<SingleProductPage> {
           // Row 1: Product Image (Square, Large)
           Center(
             child: Container(
-              width: 200, // Adjust size to make the image large
-              height: 200, // Make it square
+              width: 250,
+              height: 250,
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage('assets/images/skin_care.png'),
                   fit: BoxFit.cover,
                 ),
-                borderRadius: BorderRadius.circular(16), // Rounded corners
+                borderRadius: BorderRadius.circular(16),
               ),
             ),
           ),
-          SizedBox(height: 8), // Reduced gap between image and product name
+          SizedBox(height: 8),
 
           // Row 2: Product Description
           Text(
@@ -193,10 +193,8 @@ class _SingleProductPageState extends State<SingleProductPage> {
               ),
               Container(
                 decoration: BoxDecoration(
-                  border: Border.all(
-                      color: Colors
-                          .black), // Black border around the entire quantity section
-                  borderRadius: BorderRadius.circular(8), // Rounded corners
+                  border: Border.all(color: Colors.black),
+                  borderRadius: BorderRadius.circular(8),
                 ),
                 child: Row(
                   children: [
@@ -231,7 +229,7 @@ class _SingleProductPageState extends State<SingleProductPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              // Outlined "Add to Cart" button with the same shape as "Buy Now"
+              //
               OutlinedButton(
                 onPressed: () {},
                 child: Text("Add to Cart"),
@@ -240,13 +238,11 @@ class _SingleProductPageState extends State<SingleProductPage> {
                   side: BorderSide(color: Colors.black),
                   padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                   shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(50), // Same rounded shape
+                    borderRadius: BorderRadius.circular(50),
                   ),
                 ),
               ),
 
-              // Gradient "Buy Now" button with the same shape as "Add to Cart"
               Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(

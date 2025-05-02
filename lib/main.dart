@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Wellness App',
       debugShowCheckedModeBanner: false,
-      home: SingleProductPage(), // 👈 This runs your SkinCare page
+      home: SingleProductPage(),
     );
   }
 }
