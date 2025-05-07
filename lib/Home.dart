@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:spa_ceylon_mobile/widgets/top_greeting_bar.dart';
-import 'package:spa_ceylon_mobile/baby_care.dart'; // Import your new page for categories
+import 'package:spa_ceylon_mobile/Baby_Care.dart'; // Import your new page for categories
 
 class MyApp extends StatelessWidget {
   @override

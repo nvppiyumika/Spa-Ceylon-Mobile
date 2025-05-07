@@ -11,7 +11,7 @@ class Login extends StatelessWidget {
       home: LoginPage(),
       routes: {
         '/register': (context) => RegisterPage(),
-        '/home': (context) => Home(),
+        '/home': (context) => WellnessHomePage(),
       },
     );
   }
