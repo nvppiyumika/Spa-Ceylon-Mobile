@@ -156,6 +156,17 @@ class _WellnessHomePageState extends State<WellnessHomePage> {
                     ),
                   ),
                 ),
+                
+                // Bottom Navigation Bar
+                BottomNavBar(
+                  selectedIndex: 0, // Set the initial selected index
+                  onItemTapped: (index) {
+                    // Handle navigation or actions based on the tapped index
+                    setState(() {
+                      // Update the selected index if needed
+                    });
+                  },
+                )
               ],
                
             ),
