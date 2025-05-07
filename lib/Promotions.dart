@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:spa_ceylon_mobile/widgets/top_greeting_bar.dart'; // Import your custom top greeting bar
 
 class PromotionsPage extends StatefulWidget {
-  const PromotionsPage({Key? key}) : super(key: key);
+  const PromotionsPage({super.key});
 
   @override
   State<PromotionsPage> createState() => _PromotionsPageState();

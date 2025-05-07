@@ -3,7 +3,7 @@ import 'package:spa_ceylon_mobile/widgets/top_greeting_bar.dart';
 //import 'package:spa_ceylon_mobile/widgets/bottom_nav_bar.dart';
 
 class MessagesPage extends StatefulWidget {
-  const MessagesPage({Key? key}) : super(key: key);
+  const MessagesPage({super.key});
 
   @override
   State<MessagesPage> createState() => _MessagesPageState();

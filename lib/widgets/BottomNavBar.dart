@@ -8,7 +8,7 @@ class BottomNavBar extends StatelessWidget {
   final List<Color> gradientColors;
 
   const BottomNavBar({
-    Key? key,
+    super.key,
     required this.selectedIndex,
     required this.onItemTapped,
     this.selectedColor = Colors.white,
@@ -18,7 +18,7 @@ class BottomNavBar extends StatelessWidget {
       Color.fromRGBO(217, 182, 106, 1),
       Color.fromRGBO(191, 155, 67, 1),
     ],
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

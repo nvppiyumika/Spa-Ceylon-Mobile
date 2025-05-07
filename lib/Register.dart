@@ -4,6 +4,8 @@ import 'Login.dart';
 
 
 class Register extends StatelessWidget {
+  const Register({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -232,7 +234,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                             TextButton(
                               onPressed: () {
-                                Navigator.pushNamed(context, '/login');
+                                Navigator.of(context).push(MaterialPageRoute(builder:(context)=> LoginPage()));
                               },
                               child: const Text(
                                 'Login Here',

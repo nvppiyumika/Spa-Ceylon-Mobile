@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:spa_ceylon_mobile/widgets/top_greeting_bar.dart';
-import 'package:spa_ceylon_mobile/Baby_Care.dart'; // Import your new page for categories
+import 'package:spa_ceylon_mobile/widgets/BottomNavBar.dart';
 
-class MyApp extends StatelessWidget {
+
+
+class Home extends StatelessWidget {
+  const Home({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -15,6 +19,8 @@ class MyApp extends StatelessWidget {
 }
 
 class WellnessHomePage extends StatefulWidget {
+  const WellnessHomePage({super.key});
+
   @override
   _WellnessHomePageState createState() => _WellnessHomePageState();
 }
@@ -127,48 +133,35 @@ class _WellnessHomePageState extends State<WellnessHomePage> {
                       crossAxisCount: 4,
                       crossAxisSpacing: 5,
                       mainAxisSpacing: 30,
-                      children: categories.map((category) {
-                        return GestureDetector(
-                          onTap: () {
-                            if (category['label'] == 'Baby Care') {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => BabyCarePage(),
-                                ),
-                              );
-                            } else {
-                              print('Tapped on ${category['label']}');
-                            }
-                          },
-                          child: Column(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
-                                child: Image.asset(
-                                  category['image']!,
-                                  height: 60,
-                                  width: 60,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                category['label']!,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      }).toList(),
+                      children: categories
+                          .map((category) => Column(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(12),
+                                    child: Image.asset(
+                                      category['image']!,
+                                      height: 60,
+                                      width: 60,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  SizedBox(height: 10),
+                                  Text(
+                                    category['label']!,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ))
+                          .toList(),
                     ),
                   ),
                 ),
               ],
+               
             ),
           ),
         ],

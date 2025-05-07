@@ -3,6 +3,8 @@ import 'package:spa_ceylon_mobile/Home.dart';
 import 'register.dart';
 
 class Login extends StatelessWidget {
+  const Login({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -11,7 +13,7 @@ class Login extends StatelessWidget {
       home: LoginPage(),
       routes: {
         '/register': (context) => RegisterPage(),
-        '/home': (context) => WellnessHomePage(),
+        '/home': (context) => Home(),
       },
     );
   }
