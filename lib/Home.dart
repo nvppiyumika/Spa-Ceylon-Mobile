@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:spa_ceylon_mobile/widgets/top_greeting_bar.dart';
-import 'package:spa_ceylon_mobile/widgets/BottomNavBar.dart';
+import 'package:spa_ceylon_mobile/baby_care.dart'; // Import your new page for categories
 
-
-
-class Home extends StatelessWidget {
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -129,35 +127,48 @@ class _WellnessHomePageState extends State<WellnessHomePage> {
                       crossAxisCount: 4,
                       crossAxisSpacing: 5,
                       mainAxisSpacing: 30,
-                      children: categories
-                          .map((category) => Column(
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(12),
-                                    child: Image.asset(
-                                      category['image']!,
-                                      height: 60,
-                                      width: 60,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                  SizedBox(height: 10),
-                                  Text(
-                                    category['label']!,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ],
-                              ))
-                          .toList(),
+                      children: categories.map((category) {
+                        return GestureDetector(
+                          onTap: () {
+                            if (category['label'] == 'Baby Care') {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => BabyCarePage(),
+                                ),
+                              );
+                            } else {
+                              print('Tapped on ${category['label']}');
+                            }
+                          },
+                          child: Column(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: Image.asset(
+                                  category['image']!,
+                                  height: 60,
+                                  width: 60,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                category['label']!,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      }).toList(),
                     ),
                   ),
                 ),
               ],
-               
             ),
           ),
         ],
