@@ -110,7 +110,7 @@ class _HairCarePageState extends State<HairCarePage> {
       ),
       bottomNavigationBar: BottomNavBar(
         selectedIndex: _selectedIndex,
-        onItemTapped: _onNavTapped,
+        
       ),
     );
   }

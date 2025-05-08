@@ -202,7 +202,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           child: ElevatedButton(
                             onPressed: () {
                               // Handle sign up logic here
-                              Navigator.pushNamed(context, '/login');
+                              Navigator.of(context).push(MaterialPageRoute(builder:(context)=> LoginPage()));
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.transparent,

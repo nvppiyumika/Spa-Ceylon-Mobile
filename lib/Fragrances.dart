@@ -110,7 +110,7 @@ class _FragrancesPageState extends State<FragrancesPage> {
       ),
       bottomNavigationBar: BottomNavBar(
         selectedIndex: _selectedIndex,
-        onItemTapped: _onNavTapped,
+        
       ),
     );
   }
