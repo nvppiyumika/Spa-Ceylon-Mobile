@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'components.dart';
+import 'package:spa_ceylon_mobile/widgets/top_greeting_bar.dart';
+import 'package:spa_ceylon_mobile/widgets/BottomNavBar.dart';
 
-void main() {
-  runApp(MyApp());
-}
 
-class MyApp extends StatelessWidget {
+
+class Home extends StatelessWidget {
+  const Home({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -18,13 +19,13 @@ class MyApp extends StatelessWidget {
 }
 
 class WellnessHomePage extends StatefulWidget {
+  const WellnessHomePage({super.key});
+
   @override
   _WellnessHomePageState createState() => _WellnessHomePageState();
 }
 
 class _WellnessHomePageState extends State<WellnessHomePage> {
-  int _selectedIndex = 0;
-
   final List<Map<String, String>> categories = [
     {'label': 'Baby Care', 'image': 'assets/images/baby_care.png'},
     {'label': 'Skin Wellness', 'image': 'assets/images/skin_care.png'},
@@ -40,12 +41,6 @@ class _WellnessHomePageState extends State<WellnessHomePage> {
     'assets/images/banner1.jpg',
     'assets/images/banner2.jpg',
   ];
-
-  void _onNavTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -165,12 +160,21 @@ class _WellnessHomePageState extends State<WellnessHomePage> {
                     ),
                   ),
                 ),
+                 BottomNavBar(
+                  selectedIndex: 0, // Set the initial selected index
+                  onItemTapped: (index) {
+                    // Handle navigation or actions based on the tapped index
+                    setState(() {
+                      // Update the selected index if needed
+                    });
+                  },
+                )
               ],
+               
             ),
           ),
         ],
       ),
-      bottomNavigationBar: bottomNavBar(_selectedIndex, _onNavTapped),
     );
   }
 }

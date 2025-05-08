@@ -15,19 +15,19 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Wellness App',
       debugShowCheckedModeBanner: false,
-      home: SkinCarePage(),
+      home: HairCarePage(),
     );
   }
 }
 
-class SkinCarePage extends StatefulWidget {
-  const SkinCarePage({super.key});
+class HairCarePage extends StatefulWidget {
+  const HairCarePage({super.key});
 
   @override
-  _SkinCarePageState createState() => _SkinCarePageState();
+  _HairCarePageState createState() => _HairCarePageState();
 }
 
-class _SkinCarePageState extends State<SkinCarePage> {
+class _HairCarePageState extends State<HairCarePage> {
   int _selectedIndex = 0;
 
   void _onNavTapped(int index) {
@@ -65,7 +65,7 @@ class _SkinCarePageState extends State<SkinCarePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "SKIN WELLNESS",
+                        "HAIR WELLNESS",
                         style: TextStyle(
                           fontSize: 18,
                           color: Colors.white,
@@ -143,7 +143,7 @@ class _SkinCarePageState extends State<SkinCarePage> {
               ),
               child: Center(
                 child: Image.asset(
-                  'assets/images/skin_care.png',
+                  'assets/images/hair_wellness.png', // <--- Make sure this image exists
                   width: 80,
                   height: 80,
                 ),
@@ -158,7 +158,7 @@ class _SkinCarePageState extends State<SkinCarePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Frankincense - Face Wash For Men 150ml',
+                  'Argan Oil - Hair Strengthening Shampoo 200ml',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
                 ),
                 SizedBox(height: 4),
@@ -171,14 +171,14 @@ class _SkinCarePageState extends State<SkinCarePage> {
                     Icon(Icons.star_border, size: 14),
                     SizedBox(width: 4),
                     Text(
-                      '(67 Reviews)',
+                      '(120 Reviews)',
                       style: TextStyle(fontSize: 10),
                     ),
                   ],
                 ),
                 SizedBox(height: 4),
                 Text(
-                  'Rs. 4,550',
+                  'Rs. 3,950',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 6),

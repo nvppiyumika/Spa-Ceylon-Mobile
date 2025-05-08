@@ -1,33 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:spa_ceylon_mobile/widgets/BottomNavBar.dart';
 import 'package:spa_ceylon_mobile/widgets/top_greeting_bar.dart';
-
+//import 'package:spa_ceylon_mobile/widgets/bottom_nav_bar.dart';
 
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Wellness App',
       debugShowCheckedModeBanner: false,
-      home: SkinCarePage(),
+      home: BabyCarePage(),
     );
   }
 }
 
-class SkinCarePage extends StatefulWidget {
-  const SkinCarePage({super.key});
-
+class BabyCarePage extends StatefulWidget {
   @override
-  _SkinCarePageState createState() => _SkinCarePageState();
+  _BabyCarePageState createState() => _BabyCarePageState();
 }
 
-class _SkinCarePageState extends State<SkinCarePage> {
+class _BabyCarePageState extends State<BabyCarePage> {
   int _selectedIndex = 0;
 
   void _onNavTapped(int index) {
@@ -65,7 +60,7 @@ class _SkinCarePageState extends State<SkinCarePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "SKIN WELLNESS",
+                        "BABY CARE",
                         style: TextStyle(
                           fontSize: 18,
                           color: Colors.white,
@@ -108,10 +103,7 @@ class _SkinCarePageState extends State<SkinCarePage> {
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavBar(
-        selectedIndex: _selectedIndex,
-        onItemTapped: _onNavTapped,
-      ),
+      //bottomNavigationBar: bottomNavBar(_selectedIndex, _onNavTapped),
     );
   }
 
@@ -143,7 +135,7 @@ class _SkinCarePageState extends State<SkinCarePage> {
               ),
               child: Center(
                 child: Image.asset(
-                  'assets/images/skin_care.png',
+                  'assets/images/baby_care.png', // <-- Update this image path
                   width: 80,
                   height: 80,
                 ),
@@ -158,7 +150,7 @@ class _SkinCarePageState extends State<SkinCarePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Frankincense - Face Wash For Men 150ml',
+                  'Lavender Bliss - Eau de Parfum 100ml',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
                 ),
                 SizedBox(height: 4),
@@ -171,14 +163,14 @@ class _SkinCarePageState extends State<SkinCarePage> {
                     Icon(Icons.star_border, size: 14),
                     SizedBox(width: 4),
                     Text(
-                      '(67 Reviews)',
+                      '(89 Reviews)',
                       style: TextStyle(fontSize: 10),
                     ),
                   ],
                 ),
                 SizedBox(height: 4),
                 Text(
-                  'Rs. 4,550',
+                  'Rs. 6,950',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 6),
