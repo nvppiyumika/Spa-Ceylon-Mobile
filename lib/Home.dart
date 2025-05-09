@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:spa_ceylon_mobile/Skin%20care.dart';
 import 'package:spa_ceylon_mobile/widgets/top_greeting_bar.dart';
 import 'package:spa_ceylon_mobile/widgets/BottomNavBar.dart';
-
-
+import 'package:spa_ceylon_mobile/Baby_Care.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -14,6 +14,16 @@ class Home extends StatelessWidget {
       title: 'Wellness App',
       debugShowCheckedModeBanner: false,
       home: WellnessHomePage(),
+      routes: {
+        '/baby_care': (context) => Baby_Care(),
+        '/skin_wellness': (context) => Skin_care(),
+        // '/mind_body': (context) => MindBodyPage(),
+        // '/hair_wellness': (context) => HairWellnessPage(),
+        // '/home_wellness': (context) => HomeWellnessPage(),
+        // '/fragrances': (context) => FragrancesPage(),
+        // '/homeware': (context) => HomewarePage(),
+        // '/gifting': (context) => GiftingPage(),
+      },
     );
   }
 }
@@ -22,6 +32,7 @@ class WellnessHomePage extends StatefulWidget {
   const WellnessHomePage({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _WellnessHomePageState createState() => _WellnessHomePageState();
 }
 
@@ -134,43 +145,44 @@ class _WellnessHomePageState extends State<WellnessHomePage> {
                       crossAxisSpacing: 5,
                       mainAxisSpacing: 30,
                       children: categories
-                          .map((category) => Column(
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(12),
-                                    child: Image.asset(
-                                      category['image']!,
-                                      height: 60,
-                                      width: 60,
-                                      fit: BoxFit.cover,
+                          .map((category) => GestureDetector(
+                                onTap: () {
+                                  // Navigate to the specific route for the category
+                                  Navigator.pushNamed(context,
+                                      '/${category['label']!.toLowerCase().replaceAll(' ', '_')}');
+                                },
+                                child: Column(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(12),
+                                      child: Image.asset(
+                                        category['image']!,
+                                        height: 60,
+                                        width: 60,
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(height: 10),
-                                  Text(
-                                    category['label']!,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: Colors.white,
+                                    SizedBox(height: 10),
+                                    Text(
+                                      category['label']!,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.white,
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ))
                           .toList(),
                     ),
                   ),
                 ),
-                 BottomNavBar(
+                BottomNavBar(
                   selectedIndex: 0, // Set the initial selected index
-                  onItemTapped: (index) {
-                    // Handle navigation or actions based on the tapped index
-                    setState(() {
-                      // Update the selected index if needed
-                    });
-                  },
+                  
                 )
               ],
-               
             ),
           ),
         ],

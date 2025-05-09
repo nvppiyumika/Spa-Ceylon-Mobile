@@ -2,21 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:spa_ceylon_mobile/widgets/BottomNavBar.dart';
 import 'package:spa_ceylon_mobile/widgets/top_greeting_bar.dart';
 
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
+// ignore: camel_case_types
+class Skin_care extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Wellness App',
-      debugShowCheckedModeBanner: false,
-      home: SkinCarePage(),
-    );
+    return SkinCarePage(); // Directly return the SkinCarePage widget
   }
 }
 
@@ -24,6 +14,7 @@ class SkinCarePage extends StatefulWidget {
   const SkinCarePage({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _SkinCarePageState createState() => _SkinCarePageState();
 }
 
@@ -35,6 +26,7 @@ class _SkinCarePageState extends State<SkinCarePage> {
       _selectedIndex = index;
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -103,15 +95,16 @@ class _SkinCarePageState extends State<SkinCarePage> {
                     ),
                   ),
                 ),
+                BottomNavBar(
+                  selectedIndex: 0, // Set the initial selected index
+                  
+                )
               ],
             ),
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavBar(
-        selectedIndex: _selectedIndex,
-        onItemTapped: _onNavTapped,
-      ),
+      
     );
   }
 
@@ -204,6 +197,7 @@ class _SkinCarePageState extends State<SkinCarePage> {
               ],
             ),
           )
+          
         ],
       ),
     );

@@ -1,19 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:spa_ceylon_mobile/widgets/BottomNavBar.dart';
 import 'package:spa_ceylon_mobile/widgets/top_greeting_bar.dart';
-//import 'package:spa_ceylon_mobile/widgets/bottom_nav_bar.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
+class Baby_Care extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Wellness App',
-      debugShowCheckedModeBanner: false,
-      home: BabyCarePage(),
-    );
+    return BabyCarePage(); // Directly return the BabyCarePage widget
   }
 }
 
@@ -23,13 +15,6 @@ class BabyCarePage extends StatefulWidget {
 }
 
 class _BabyCarePageState extends State<BabyCarePage> {
-  int _selectedIndex = 0;
-
-  void _onNavTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,12 +83,15 @@ class _BabyCarePageState extends State<BabyCarePage> {
                     ),
                   ),
                 ),
+                BottomNavBar(
+                  selectedIndex: 0, // Set the initial selected index
+                  
+                )
               ],
             ),
           ),
         ],
       ),
-      //bottomNavigationBar: bottomNavBar(_selectedIndex, _onNavTapped),
     );
   }
 

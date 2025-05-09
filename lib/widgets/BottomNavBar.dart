@@ -1,8 +1,9 @@
+// ignore: file_names
 import 'package:flutter/material.dart';
+import 'package:spa_ceylon_mobile/main.dart';
 
 class BottomNavBar extends StatelessWidget {
   final int selectedIndex;
-  final Function(int) onItemTapped;
   final Color selectedColor;
   final Color unselectedColor;
   final List<Color> gradientColors;
@@ -10,7 +11,6 @@ class BottomNavBar extends StatelessWidget {
   const BottomNavBar({
     super.key,
     required this.selectedIndex,
-    required this.onItemTapped,
     this.selectedColor = Colors.white,
     this.unselectedColor = Colors.black54,
     this.gradientColors = const [
@@ -19,6 +19,22 @@ class BottomNavBar extends StatelessWidget {
       Color.fromRGBO(191, 155, 67, 1),
     ],
   });
+
+  void _onNavTapped(BuildContext context, int index) {
+  // List of route paths
+ List<String> routes = [
+    '/home',
+    '/messages',
+    '/promotions',
+    '/cart',
+    '/profile',
+  ];
+
+  // Navigate to the route corresponding to the selected index
+  if (index >= 0 && index < routes.length) {
+    Navigator.pushReplacementNamed(context, routes[index]);
+  }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +52,7 @@ class BottomNavBar extends StatelessWidget {
           backgroundColor: Colors.transparent,
           elevation: 0,
           currentIndex: selectedIndex,
-          onTap: onItemTapped,
+          onTap: (index) => _onNavTapped(context, index), // Call the navigation logic
           selectedItemColor: selectedColor,
           unselectedItemColor: unselectedColor,
           type: BottomNavigationBarType.fixed,

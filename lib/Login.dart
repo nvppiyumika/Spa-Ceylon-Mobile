@@ -1,3 +1,4 @@
+// ignore: file_names
 import 'package:flutter/material.dart';
 import 'package:spa_ceylon_mobile/Home.dart';
 import 'register.dart';
@@ -171,8 +172,12 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           child: ElevatedButton(
                             onPressed: () {
-                              // Handle login action here
-                              Navigator.pushNamed(context, '/home');
+                              // Clear the navigation stack and navigate to the Home page
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(builder: (context) => Home()),
+                                (route) => false,
+                              );
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.transparent,
