@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'components.dart';
+import 'package:spa_ceylon_mobile/widgets/BottomNavBar.dart';
+import 'package:spa_ceylon_mobile/widgets/top_greeting_bar.dart';
 
 void main() {
   runApp(MyApp());
@@ -100,9 +101,17 @@ class _BabyCarePageState extends State<BabyCarePage> {
               ],
             ),
           ),
+          BottomNavBar(
+            selectedIndex: 0, // Set the initial selected index
+            onItemTapped: (index) {
+              // Handle navigation or actions based on the tapped index
+              setState(() {
+                // Update the selected index if needed
+              });
+            },
+          )
         ],
       ),
-      bottomNavigationBar: bottomNavBar(_selectedIndex, _onNavTapped),
     );
   }
 
