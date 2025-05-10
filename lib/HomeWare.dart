@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Wellness App',
       debugShowCheckedModeBanner: false,
-      home: HomeWarePage(), // Renamed here
+      home: HomeWarePage(),
     );
   }
 }
