@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:spa_ceylon_mobile/Login.dart';
-import 'package:spa_ceylon_mobile/home.dart';
-import 'package:spa_ceylon_mobile/messages.dart';
-import 'package:spa_ceylon_mobile/Promotions.dart';
-import 'package:spa_ceylon_mobile/cart.dart';
-import 'package:spa_ceylon_mobile/Profile.dart';
-import 'package:spa_ceylon_mobile/Baby_Care.dart';
-import 'package:spa_ceylon_mobile/Skin care.dart';
+import 'package:spa_ceylon_mobile/screens/Home.dart';
+import 'package:spa_ceylon_mobile/screens/Login.dart';
+import 'package:spa_ceylon_mobile/screens/Messages.dart';
+import 'package:spa_ceylon_mobile/screens/Promotions.dart';
+import 'package:spa_ceylon_mobile/screens/Cart.dart';
+import 'package:spa_ceylon_mobile/screens/Profile.dart';
+import 'package:spa_ceylon_mobile/screens/Baby_Care.dart';
+import 'package:spa_ceylon_mobile/screens/Skin%20care.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // Add this line
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -26,16 +26,25 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Wellness App',
       debugShowCheckedModeBanner: false,
-      initialRoute: '/login', // Set the initial route to the Login page
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      initialRoute: '/login',
       routes: {
-        '/login': (context) => Login(),
-        '/home': (context) => Home(),
+        '/login': (context) => const Login(),
+        '/home': (context) => const Home(),
         '/baby_care': (context) => Baby_Care(),
         '/skin_wellness': (context) => Skin_care(),
-        '/messages': (context) => MessagesPage(),
-        '/promotions': (context) => PromotionsPage(),
+        '/messages': (context) => const MessagesPage(),
+        '/promotions': (context) => const PromotionsPage(),
         '/cart': (context) => CartPage(),
-        '/profile': (context) => ProfilePage(),
+        '/profile': (context) => const ProfilePage(),
+      },
+      onUnknownRoute: (settings) {
+        return MaterialPageRoute(
+          builder: (context) => const Home(),
+        );
       },
     );
   }

@@ -1,85 +1,117 @@
-// ignore: file_names
 import 'package:flutter/material.dart';
-import 'package:spa_ceylon_mobile/main.dart';
 
 class BottomNavBar extends StatelessWidget {
-  final int selectedIndex;
-  final Color selectedColor;
-  final Color unselectedColor;
-  final List<Color> gradientColors;
+  final int currentIndex;
+  final Function(int)? onTap;
 
   const BottomNavBar({
     super.key,
-    required this.selectedIndex,
-    this.selectedColor = Colors.white,
-    this.unselectedColor = Colors.black54,
-    this.gradientColors = const [
-      Color.fromRGBO(191, 155, 67, 1),
-      Color.fromRGBO(217, 182, 106, 1),
-      Color.fromRGBO(191, 155, 67, 1),
-    ],
+    required this.currentIndex,
+    this.onTap,
   });
 
-  void _onNavTapped(BuildContext context, int index) {
-  // List of route paths
- List<String> routes = [
-    '/home',
-    '/messages',
-    '/promotions',
-    '/cart',
-    '/profile',
-  ];
-
-  // Navigate to the route corresponding to the selected index
-  if (index >= 0 && index < routes.length) {
-    Navigator.pushReplacementNamed(context, routes[index]);
+  void _navigateToPage(BuildContext context, int index) {
+    // Remove current routes and add new route
+    Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil(
+      _getRouteForIndex(index),
+      (route) => false,
+    );
   }
-}
+
+  String _getRouteForIndex(int index) {
+    switch (index) {
+      case 0:
+        return '/home';
+      case 1:
+        return '/messages';
+      case 2:
+        return '/promotions';
+      case 3:
+        return '/cart';
+      case 4:
+        return '/profile';
+      default:
+        return '/home';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return ClipRect(
-      child: Container(
-        height: 60, // Set to standard BottomNavigationBar height
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: gradientColors,
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            Color.fromRGBO(191, 155, 67, 1),
+            Color.fromRGBO(217, 182, 106, 1),
+            Color.fromRGBO(191, 155, 67, 1),
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(15),
+          topRight: Radius.circular(15),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 10,
+            offset: const Offset(0, -5),
+          ),
+        ],
+      ),
+      child: Theme(
+        data: Theme.of(context).copyWith(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: BottomNavigationBar(
+            currentIndex: currentIndex,
+            onTap: (index) {
+              // Call the onTap callback if provided
+              if (onTap != null) {
+                onTap!(index);
+              }
+
+              // Navigate to the appropriate screen
+              _navigateToPage(context, index);
+            },
+            type: BottomNavigationBarType.fixed,
+            backgroundColor: Colors.transparent,
+            selectedItemColor: Colors.black,
+            unselectedItemColor: Colors.black.withOpacity(0.7),
+            showUnselectedLabels: true,
+            showSelectedLabels: true,
+            selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
+            elevation: 0,
+            items: [
+              _buildBottomNavigationBarItem(
+                  Icons.home_outlined, Icons.home, 'Home', currentIndex == 0),
+              _buildBottomNavigationBarItem(Icons.chat_bubble_outline,
+                  Icons.chat_bubble, 'Messages', currentIndex == 1),
+              _buildBottomNavigationBarItem(Icons.percent_outlined,
+                  Icons.percent, 'Promotions', currentIndex == 2),
+              _buildBottomNavigationBarItem(Icons.shopping_cart_outlined,
+                  Icons.shopping_cart, 'Cart', currentIndex == 3),
+              _buildBottomNavigationBarItem(Icons.person_outline, Icons.person,
+                  'Profile', currentIndex == 4),
+            ],
           ),
         ),
-        child: BottomNavigationBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          currentIndex: selectedIndex,
-          onTap: (index) => _onNavTapped(context, index), // Call the navigation logic
-          selectedItemColor: selectedColor,
-          unselectedItemColor: unselectedColor,
-          type: BottomNavigationBarType.fixed,
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home_outlined),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.chat_bubble_outline),
-              label: 'Messages',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.percent),
-              label: 'Promotions',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_cart_outlined),
-              label: 'Cart',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person_outline),
-              label: 'Profile',
-            ),
-          ],
-        ),
       ),
+    );
+  }
+
+  BottomNavigationBarItem _buildBottomNavigationBarItem(
+      IconData icon, IconData activeIcon, String label, bool isSelected) {
+    return BottomNavigationBarItem(
+      icon: Transform.scale(
+        scale: isSelected ? 1.3 : 1.0,
+        child: Icon(isSelected ? activeIcon : icon),
+      ),
+      label: label,
     );
   }
 }
