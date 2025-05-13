@@ -6,6 +6,7 @@ class HairCarePage extends StatefulWidget {
   const HairCarePage({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _HairCarePageState createState() => _HairCarePageState();
 }
 
