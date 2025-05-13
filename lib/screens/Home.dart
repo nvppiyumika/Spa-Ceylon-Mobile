@@ -134,6 +134,7 @@ class _WellnessHomePageState extends State<WellnessHomePage> {
                                   // Navigate to the specific route for the category
                                   Navigator.pushNamed(context,
                                       '/${category['label']!.toLowerCase().replaceAll(' ', '_')}');
+                                      
                                 },
                                 child: Column(
                                   children: [

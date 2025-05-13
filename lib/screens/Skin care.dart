@@ -19,13 +19,7 @@ class SkinCarePage extends StatefulWidget {
 }
 
 class _SkinCarePageState extends State<SkinCarePage> {
-  int _selectedIndex = 0;
 
-  void _onNavTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {

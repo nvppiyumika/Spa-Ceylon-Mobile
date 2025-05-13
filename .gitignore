@@ -43,3 +43,77 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+# Flutter/Dart/Pub related
+.dart_tool/
+.packages
+.pub-cache/
+.pub/
+build/
+flutter_export_environment.sh
+flutter_export_environment.bat
+
+# IntelliJ related
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# VS Code related
+.vscode/
+
+# MacOS related
+.DS_Store
+
+# Windows related
+Thumbs.db
+
+# Android related
+android/.gradle/
+android/app/build/
+android/local.properties
+
+# iOS related
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/Flutter.framework/
+ios/Flutter/Flutter.podspec
+ios/Flutter/App.framework/
+ios/Flutter/Generated.xcconfig
+ios/Flutter/ephemeral/
+
+# Web related
+web/.dart_tool/
+web/.packages
+web/build/
+
+# Linux related
+linux/flutter/ephemeral/
+
+# Generated files
+*.log
+*.lock
+*.pyc
+*.pyo
+*.swp
+*.swo
+*.tmp
+*.bak
+*.orig
+*.rej
+*.class
+*.jar
+*.war
+*.ear
+*.dll
+*.exe
+*.so
+*.dylib
+*.lib
+*.a
+*.o
+*.obj
+*.py[cod]
+*.sw[nop]
+*.s[a-z][a-z]
+*.DS_Store
+*.directory

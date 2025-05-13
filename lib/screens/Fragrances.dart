@@ -1,3 +1,4 @@
+// ignore: file_names
 import 'package:flutter/material.dart';
 import 'package:spa_ceylon_mobile/widgets/top_greeting_bar.dart';
 import '../widgets/BottomNavBar.dart';
@@ -6,6 +7,7 @@ class FragrancesPage extends StatefulWidget {
   const FragrancesPage({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _FragrancesPageState createState() => _FragrancesPageState();
 }
 

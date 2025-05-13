@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:spa_ceylon_mobile/screens/Fragrances.dart';
+import 'package:spa_ceylon_mobile/screens/Hair.dart';
 import 'package:spa_ceylon_mobile/screens/Home.dart';
 import 'package:spa_ceylon_mobile/screens/Login.dart';
 import 'package:spa_ceylon_mobile/screens/Messages.dart';
@@ -40,6 +42,8 @@ class MyApp extends StatelessWidget {
         '/promotions': (context) => const PromotionsPage(),
         '/cart': (context) => CartPage(),
         '/profile': (context) => const ProfilePage(),
+        '/hair_wellness': (context) => const HairCarePage(),
+        '/fragrances': (context) => const FragrancesPage(),
       },
       onUnknownRoute: (settings) {
         return MaterialPageRoute(
