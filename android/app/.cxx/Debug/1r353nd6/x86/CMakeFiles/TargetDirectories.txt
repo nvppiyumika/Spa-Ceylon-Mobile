@@ -1,0 +1,2 @@
+C:/Users/user/Desktop/practice projecct/Spa-Ceylon-Mobile/Spa-Ceylon-Mobile/android/app/.cxx/Debug/1r353nd6/x86/CMakeFiles/edit_cache.dir
+C:/Users/user/Desktop/practice projecct/Spa-Ceylon-Mobile/Spa-Ceylon-Mobile/android/app/.cxx/Debug/1r353nd6/x86/CMakeFiles/rebuild_cache.dir
