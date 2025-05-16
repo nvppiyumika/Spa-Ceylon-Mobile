@@ -1,4 +1,3 @@
-// ignore: file_names
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -63,12 +62,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 const SizedBox(height: 40),
 
                 // Golden Buttons
-                buildGoldButton("Account Information", () {
-                  Navigator.pushNamed(context, '/account_information');
-                }),
-                buildGoldButton("Address Book", () {
-                  Navigator.pushNamed(context, '/address_book');
-                }),
+                buildGoldButton("Account Information", () {}),
+                buildGoldButton("Address Book", () {}),
                 buildGoldButton("Policies", () {}),
                 buildGoldButton("Help", () {}),
 
