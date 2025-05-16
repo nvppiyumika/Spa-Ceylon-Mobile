@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:spa_ceylon_mobile/screens/Address%20Book.dart';
+import 'package:spa_ceylon_mobile/screens/Edit%20Profile.dart';
 import 'package:spa_ceylon_mobile/screens/Fragrances.dart';
 import 'package:spa_ceylon_mobile/screens/Hair.dart';
 import 'package:spa_ceylon_mobile/screens/Home.dart';
@@ -44,6 +46,12 @@ class MyApp extends StatelessWidget {
         '/profile': (context) => const ProfilePage(),
         '/hair_wellness': (context) => const HairCarePage(),
         '/fragrances': (context) => const FragrancesPage(),
+        '/account_information': (context) => const EditProfilePage(),
+        '/address_book': (context) => const AddressBook(),
+
+
+
+
       },
       onUnknownRoute: (settings) {
         return MaterialPageRoute(
