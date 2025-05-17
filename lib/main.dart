@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:spa_ceylon_mobile/screens/Fragrances.dart';
-import 'package:spa_ceylon_mobile/screens/Hair.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:spa_ceylon_mobile/screens/Baby_Care.dart';
+import 'package:spa_ceylon_mobile/screens/Cart.dart';
 import 'package:spa_ceylon_mobile/screens/Home.dart';
 import 'package:spa_ceylon_mobile/screens/Login.dart';
 import 'package:spa_ceylon_mobile/screens/Messages.dart';
-import 'package:spa_ceylon_mobile/screens/Promotions.dart';
-import 'package:spa_ceylon_mobile/screens/Cart.dart';
 import 'package:spa_ceylon_mobile/screens/Profile.dart';
-import 'package:spa_ceylon_mobile/screens/Baby_Care.dart';
-import 'package:spa_ceylon_mobile/screens/Skin%20care.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:spa_ceylon_mobile/screens/Promotions.dart';
+import 'package:spa_ceylon_mobile/screens/Skin_care.dart';
+import 'package:spa_ceylon_mobile/screens/Address__Book.dart';
+import 'package:spa_ceylon_mobile/screens/Edit_Profile.dart';
+
 import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -28,27 +27,18 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Wellness App',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      initialRoute: '/login',
+      initialRoute: '/login', // Set the initial route to the Login page
       routes: {
-        '/login': (context) => const Login(),
-        '/home': (context) => const Home(),
+        '/login': (context) => Login(),
+        '/home': (context) => Home(),
         '/baby_care': (context) => Baby_Care(),
         '/skin_wellness': (context) => Skin_care(),
-        '/messages': (context) => const MessagesPage(),
-        '/promotions': (context) => const PromotionsPage(),
+        '/messages': (context) => MessagesPage(),
+        '/promotions': (context) => PromotionsPage(),
         '/cart': (context) => CartPage(),
-        '/profile': (context) => const ProfilePage(),
-        '/hair_wellness': (context) => const HairCarePage(),
-        '/fragrances': (context) => const FragrancesPage(),
-      },
-      onUnknownRoute: (settings) {
-        return MaterialPageRoute(
-          builder: (context) => const Home(),
-        );
+        '/profile': (context) => ProfilePage(),
+        '/account_information': (context) => EditProfilePage(),
+        '/address_book': (context) => AddressBook(),
       },
     );
   }

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:spa_ceylon_mobile/widgets/BottomNavBar.dart';
 import 'package:spa_ceylon_mobile/widgets/top_greeting_bar.dart';
-//import 'package:spa_ceylon_mobile/widgets/bottom_nav_bar.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -62,8 +61,12 @@ class _ProfilePageState extends State<ProfilePage> {
                 const SizedBox(height: 40),
 
                 // Golden Buttons
-                buildGoldButton("Account Information", () {}),
-                buildGoldButton("Address Book", () {}),
+                buildGoldButton("Account Information", () {
+                  Navigator.pushNamed(context, '/account_information');
+                }),
+                buildGoldButton("Address Book", () {
+                  Navigator.pushNamed(context, '/address_book');
+                }),
                 buildGoldButton("Policies", () {}),
                 buildGoldButton("Help", () {}),
 
