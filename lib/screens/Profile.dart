@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:spa_ceylon_mobile/widgets/BottomNavBar.dart';
 import 'package:spa_ceylon_mobile/widgets/top_greeting_bar.dart';
+import 'package:spa_ceylon_mobile/services/authService.dart';
+import 'package:spa_ceylon_mobile/screens/Login.dart'; // Ensure this matches your Login page path
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -14,6 +16,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   File? _profileImage;
   final picker = ImagePicker();
+  final AuthService _authService = AuthService(); // Add AuthService instance
 
   Future<void> _pickImage() async {
     final picked = await picker.pickImage(source: ImageSource.gallery);
@@ -22,6 +25,50 @@ class _ProfilePageState extends State<ProfilePage> {
         _profileImage = File(picked.path);
       });
     }
+  }
+
+  Future<void> _showLogoutConfirmation() async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Confirm Logout"),
+          content: const Text("Are you sure you want to log out?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: const Text("No"),
+            ),
+            TextButton(
+              onPressed: () async {
+                try {
+                  await _authService.signOut(); // Call signOut from AuthService
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => LoginPage()),
+                  ); // Redirect to Login page
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text("Error logging out: $e"),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                }
+              },
+              style: TextButton.styleFrom(
+                backgroundColor:
+                    const Color(0xFFD1A73E), // Set background color
+                foregroundColor:
+                    Colors.black, // Set text/icon color for contrast
+              ),
+              child: const Text("Yes"),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -74,9 +121,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
                 // Logout Button
                 GestureDetector(
-                  onTap: () {
-                    // Add logout logic here
-                  },
+                  onTap: _showLogoutConfirmation, // Trigger logout confirmation
                   child: Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 40, vertical: 12),
