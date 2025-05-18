@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:spa_ceylon_mobile/screens/Baby_Care.dart';
-import 'package:spa_ceylon_mobile/screens/Cart.dart';
 import 'package:spa_ceylon_mobile/screens/Home.dart';
 import 'package:spa_ceylon_mobile/screens/Login.dart';
 import 'package:spa_ceylon_mobile/screens/Messages.dart';
 import 'package:spa_ceylon_mobile/screens/Profile.dart';
+import 'package:spa_ceylon_mobile/screens/Cart.dart';
 import 'package:spa_ceylon_mobile/screens/Promotions.dart';
-import 'package:spa_ceylon_mobile/screens/Skin_care.dart';
 import 'package:spa_ceylon_mobile/screens/Address__Book.dart';
 import 'package:spa_ceylon_mobile/screens/Edit_Profile.dart';
-
 import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -31,8 +30,6 @@ class MyApp extends StatelessWidget {
       routes: {
         '/login': (context) => Login(),
         '/home': (context) => Home(),
-        '/baby_care': (context) => Baby_Care(),
-        '/skin_wellness': (context) => Skin_care(),
         '/messages': (context) => MessagesPage(),
         '/promotions': (context) => PromotionsPage(),
         '/cart': (context) => CartPage(),

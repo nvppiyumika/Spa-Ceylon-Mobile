@@ -74,6 +74,17 @@ flutter:
     - assets/images/google.png
     - assets/images/facebook.png
     - assets/images/apple.png
+    - assets/images/baby_care.png
+    - assets/images/skin_care.png
+    - assets/images/products/Baby_Soap.png
+    - assets/images/products/Baby_Balm.png
+    - assets/images/products/Island_Rose.png
+    - assets/images/products/Kesharaja.png
+    - assets/images/products/Neroli_Jasmine.png
+    - assets/images/products/Royal_Lotus_Mug.png
+    - assets/images/products/Royal_Lotus.png
+    - assets/images/products/Sleep_Trio.png
+    - assets/images/products/White_Mint.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:spa_ceylon_mobile/widgets/top_greeting_bar.dart';
 import 'package:spa_ceylon_mobile/widgets/BottomNavBar.dart';
+import 'package:spa_ceylon_mobile/screens/Products.dart'; // Import the Products page
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -16,20 +17,47 @@ class WellnessHomePage extends StatefulWidget {
   const WellnessHomePage({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _WellnessHomePageState createState() => _WellnessHomePageState();
 }
 
 class _WellnessHomePageState extends State<WellnessHomePage> {
   final List<Map<String, String>> categories = [
-    {'label': 'Baby Care', 'image': 'assets/images/baby_care.png'},
-    {'label': 'Skin Wellness', 'image': 'assets/images/skin_care.png'},
-    {'label': 'Mind & Body', 'image': 'assets/images/mind_body.png'},
-    {'label': 'Hair Wellness', 'image': 'assets/images/hair_wellness.png'},
-    {'label': 'Home Wellness', 'image': 'assets/images/home_wellness.png'},
-    {'label': 'Fragrances', 'image': 'assets/images/fragrances.png'},
-    {'label': 'Homeware', 'image': 'assets/images/homeware.png'},
-    {'label': 'Gifting', 'image': 'assets/images/gifting.png'},
+    {
+      'label': 'Baby Care',
+      'image': 'assets/images/baby_care.png',
+      'id': 'baby_care'
+    },
+    {
+      'label': 'Skin Wellness',
+      'image': 'assets/images/skin_care.png',
+      'id': 'skin_wellness'
+    },
+    {
+      'label': 'Mind & Body',
+      'image': 'assets/images/mind_body.png',
+      'id': 'mind_body'
+    },
+    {
+      'label': 'Hair Wellness',
+      'image': 'assets/images/hair_wellness.png',
+      'id': 'hair_wellness'
+    },
+    {
+      'label': 'Home Wellness',
+      'image': 'assets/images/home_wellness.png',
+      'id': 'home_wellness'
+    },
+    {
+      'label': 'Fragrances',
+      'image': 'assets/images/fragrances.png',
+      'id': 'fragrances'
+    },
+    {
+      'label': 'Homeware',
+      'image': 'assets/images/homeware.png',
+      'id': 'homeware'
+    },
+    {'label': 'Gifting', 'image': 'assets/images/gifting.png', 'id': 'gifting'},
   ];
 
   final List<String> banners = [
@@ -131,9 +159,16 @@ class _WellnessHomePageState extends State<WellnessHomePage> {
                       children: categories
                           .map((category) => GestureDetector(
                                 onTap: () {
-                                  // Navigate to the specific route for the category
-                                  Navigator.pushNamed(context,
-                                      '/${category['label']!.toLowerCase().replaceAll(' ', '_')}');
+                                  // Navigate to the Products page with category details
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Products(
+                                        categoryId: category['id']!,
+                                        categoryName: category['label']!,
+                                      ),
+                                    ),
+                                  );
                                 },
                                 child: Column(
                                   children: [
