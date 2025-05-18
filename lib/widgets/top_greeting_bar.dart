@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart'; 
 
 Widget topGreetingBar(String userName) {
+  final user = FirebaseAuth.instance.currentUser;
+  final userName = user?.displayName ?? 'User';
   return Container(
     height: 80,
     padding: EdgeInsets.symmetric(horizontal: 16),
@@ -24,7 +27,7 @@ Widget topGreetingBar(String userName) {
             style: TextStyle(fontSize: 18, color: Colors.black),
             children: [
               TextSpan(
-                text: 'AYUBOWAN ',
+                text: 'ආයුබෝවන් ',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               TextSpan(text: '$userName.'),
