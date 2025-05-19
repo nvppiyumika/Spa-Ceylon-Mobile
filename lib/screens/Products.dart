@@ -3,6 +3,8 @@ import 'package:spa_ceylon_mobile/widgets/BottomNavBar.dart';
 import 'package:spa_ceylon_mobile/widgets/top_greeting_bar.dart';
 import 'package:spa_ceylon_mobile/models/productModel.dart';
 import 'package:spa_ceylon_mobile/services/productService.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Products extends StatelessWidget {
   final String categoryId;
@@ -121,6 +123,47 @@ class _ProductsPageState extends State<ProductsPage> {
         _updateSortOption(value);
         Navigator.pop(context);
       },
+    );
+  }
+
+  Future<void> addToCart({
+    required String name,
+    required double price,
+    required String imageUrl,
+    required double rating,
+  }) async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Please log in to add items to cart.")),
+      );
+      return;
+    }
+    final cartRef = FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .collection('cart');
+
+    // Check if product already in cart
+    final existing = await cartRef.where('name', isEqualTo: name).limit(1).get();
+    if (existing.docs.isNotEmpty) {
+      // If exists, increment quantity
+      final doc = existing.docs.first;
+      await cartRef.doc(doc.id).update({
+        'quantity': (doc['quantity'] ?? 1) + 1,
+      });
+    } else {
+      // If not, add new item
+      await cartRef.add({
+        'name': name,
+        'price': price,
+        'imageUrl': imageUrl,
+        'rating': rating,
+        'quantity': 1,
+      });
+    }
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Added to cart!")),
     );
   }
 
@@ -310,7 +353,14 @@ class _ProductsPageState extends State<ProductsPage> {
                 SizedBox(height: 6),
                 Center(
                   child: OutlinedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      addToCart(
+                        name: name,
+                        price: price,
+                        imageUrl: imageUrl,
+                        rating: rating,
+                      );
+                    },
                     style: OutlinedButton.styleFrom(
                       foregroundColor: Colors.black,
                       side: BorderSide(color: Colors.black),

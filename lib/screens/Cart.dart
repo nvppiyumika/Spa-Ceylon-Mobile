@@ -1,195 +1,204 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:spa_ceylon_mobile/widgets/BottomNavBar.dart';
+import 'package:spa_ceylon_mobile/widgets/top_greeting_bar.dart';
 
 class CartPage extends StatelessWidget {
-  final List<CartItem> cartItems = [
-    CartItem(name: "Lavender Body Oil", price: 25.0, quantity: 1),
-    CartItem(name: "Herbal Soap", price: 10.0, quantity: 2),
-    CartItem(name: "Aroma Candle", price: 15.0, quantity: 1),
-  ];
-
   CartPage({super.key});
+
+  // Get current user's cart collection
+  CollectionReference<Map<String, dynamic>> getCartCollection() {
+    final user = FirebaseAuth.instance.currentUser;
+    // If you want a global cart, use FirebaseFirestore.instance.collection('cart');
+    // For per-user cart:
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(user?.uid)
+        .collection('cart');
+  }
+
+  Future<void> updateQuantity(String docId, int newQuantity) async {
+    if (newQuantity < 1) return;
+    await getCartCollection().doc(docId).update({'quantity': newQuantity});
+  }
+
+  Future<void> deleteItem(String docId) async {
+    await getCartCollection().doc(docId).delete();
+  }
 
   @override
   Widget build(BuildContext context) {
-    double total = cartItems.fold(
-      0,
-      (sum, item) => sum + (item.price * item.quantity),
-    );
-
     return Scaffold(
       body: Stack(
         children: [
-          // 🌄 Background Image
           Positioned.fill(
             child: Image.asset(
-              'assets/images/background.jpg', // make sure this path is correct
+              'assets/images/background.jpg',
               fit: BoxFit.cover,
             ),
           ),
           SafeArea(
             child: Column(
               children: [
-                // 🌈 Gradient AppBar Replacement
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  height: 60,
-                  width: double.infinity,
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Color.fromRGBO(191, 155, 67, 1),
-                        Color.fromRGBO(217, 182, 106, 1),
-                        Color.fromRGBO(191, 155, 67, 1)
-                      ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                  ),
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'My Cart', // 🔄 Updated title
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                // 🛍️ Cart Content
+                topGreetingBar("User"), // Replace with actual user name
                 Expanded(
-                  child: ListView.separated(
-                    itemCount: cartItems.length,
-                    padding: const EdgeInsets.all(16),
-                    separatorBuilder: (_, __) =>
-                        const Divider(color: Colors.white24),
-                    itemBuilder: (context, index) {
-                      final item = cartItems[index];
-                      return Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            height: 60,
-                            width: 60,
-                            decoration: BoxDecoration(
-                              color: Colors.grey[300],
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: const Icon(Icons.spa, color: Colors.black),
+                  child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                    stream: getCartCollection().snapshots(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                        return const Center(
+                          child: Text(
+                            "Your cart is empty.",
+                            style: TextStyle(color: Colors.white, fontSize: 18),
                           ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  item.name,
-                                  style: const TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  '\$${item.price.toStringAsFixed(2)}',
-                                  style: const TextStyle(color: Colors.white70),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Row(
+                        );
+                      }
+                      final cartDocs = snapshot.data!.docs;
+                      double total = 0;
+                      for (var doc in cartDocs) {
+                        final data = doc.data();
+                        total += (data['price'] ?? 0) * (data['quantity'] ?? 1);
+                      }
+                      return ListView.separated(
+                        itemCount: cartDocs.length,
+                        padding: const EdgeInsets.all(16),
+                        separatorBuilder: (_, __) =>
+                            const Divider(color: Colors.white24),
+                        itemBuilder: (context, index) {
+                          final doc = cartDocs[index];
+                          final data = doc.data();
+                          return Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              IconButton(
-                                icon: const Icon(Icons.remove_circle,
-                                    color: Colors.white),
-                                onPressed: () {},
+                              Container(
+                                height: 60,
+                                width: 60,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[300],
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: const Icon(Icons.spa, color: Colors.black),
                               ),
-                              Text(
-                                item.quantity.toString(),
-                                style: const TextStyle(color: Colors.white),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      data['name'] ?? '',
+                                      style: const TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      '\$${(data['price'] ?? 0).toStringAsFixed(2)}',
+                                      style: const TextStyle(color: Colors.white70),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  IconButton(
+                                    icon: const Icon(Icons.remove_circle, color: Colors.white),
+                                    onPressed: (data['quantity'] ?? 1) > 1
+                                        ? () => updateQuantity(doc.id, data['quantity'] - 1)
+                                        : null,
+                                  ),
+                                  Text(
+                                    (data['quantity'] ?? 1).toString(),
+                                    style: const TextStyle(color: Colors.white),
+                                  ),
+                                  IconButton(
+                                    icon: const Icon(Icons.add_circle, color: Colors.white),
+                                    onPressed: () => updateQuantity(doc.id, data['quantity'] + 1),
+                                  ),
+                                ],
                               ),
                               IconButton(
-                                icon: const Icon(Icons.add_circle,
-                                    color: Colors.white),
-                                onPressed: () {},
+                                icon: const Icon(Icons.delete_outline, color: Colors.redAccent),
+                                onPressed: () => deleteItem(doc.id),
                               ),
                             ],
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.delete_outline,
-                                color: Colors.redAccent),
-                            onPressed: () {},
-                          ),
-                        ],
+                          );
+                        },
                       );
                     },
                   ),
                 ),
-
                 // 💰 Total + Gradient Proceed Button
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-                  decoration: const BoxDecoration(
-                    color: Colors.black87,
-                  ),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                  stream: getCartCollection().snapshots(),
+                  builder: (context, snapshot) {
+                    double total = 0;
+                    if (snapshot.hasData) {
+                      for (var doc in snapshot.data!.docs) {
+                        final data = doc.data();
+                        total += (data['price'] ?? 0) * (data['quantity'] ?? 1);
+                      }
+                    }
+                    return Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                      decoration: const BoxDecoration(
+                        color: Colors.black87,
+                      ),
+                      child: Column(
                         children: [
-                          const Text("Total",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 18)),
-                          Text(
-                            '\$${total.toStringAsFixed(2)}',
-                            style: const TextStyle(
-                              color: Color.fromRGBO(191, 155, 67, 1),
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text("Total",
+                                  style: TextStyle(color: Colors.white, fontSize: 18)),
+                              Text(
+                                '\$${total.toStringAsFixed(2)}',
+                                style: const TextStyle(
+                                  color: Color.fromRGBO(191, 155, 67, 1),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 12),
+                          GestureDetector(
+                            onTap: () {
+                              // Add checkout functionality here
+                            },
+                            child: Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.symmetric(vertical: 14),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                gradient: const LinearGradient(
+                                  colors: [
+                                    Color.fromRGBO(191, 155, 67, 1),
+                                    Color.fromRGBO(217, 182, 106, 1),
+                                    Color.fromRGBO(191, 155, 67, 1)
+                                  ],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
+                              ),
+                              child: const Center(
+                                child: Text(
+                                  'PROCEED TO CHECKOUT',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 12),
-
-                      // 🌈 Gradient Button
-                      GestureDetector(
-                        onTap: () {
-                          // Add checkout functionality
-                        },
-                        child: Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.symmetric(vertical: 14),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            gradient: const LinearGradient(
-                              colors: [
-                                Color.fromRGBO(191, 155, 67, 1),
-                                Color.fromRGBO(217, 182, 106, 1),
-                                Color.fromRGBO(191, 155, 67, 1)
-                              ],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            ),
-                          ),
-                          child: const Center(
-                            child: Text(
-                              'PROCEED TO CHECKOUT',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                    );
+                  },
                 ),
               ],
             ),
@@ -197,24 +206,9 @@ class CartPage extends StatelessWidget {
         ],
       ),
       bottomNavigationBar: BottomNavBar(
-        currentIndex: 3, // Index 3 for cart
-        onTap: (index) {
-          // Navigation handled by the BottomNavBar
-        },
+        currentIndex: 3,
+        onTap: (index) {},
       ),
     );
   }
-}
-
-// 📦 Cart Item Model
-class CartItem {
-  final String name;
-  final double price;
-  final int quantity;
-
-  CartItem({
-    required this.name,
-    required this.price,
-    required this.quantity,
-  });
 }
