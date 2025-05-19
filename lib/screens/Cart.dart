@@ -81,8 +81,7 @@ class CartPage extends StatelessWidget {
                                   color: Colors.grey[300],
                                   borderRadius: BorderRadius.circular(10),
                                 ),
-                                child:
-                                    const Icon(Icons.spa, color: Colors.black),
+                                child: const Icon(Icons.spa, color: Colors.black),
                               ),
                               const SizedBox(width: 12),
                               Expanded(
@@ -97,9 +96,8 @@ class CartPage extends StatelessWidget {
                                     ),
                                     const SizedBox(height: 4),
                                     Text(
-                                      'Rs. ${(data['price'] ?? 0).toStringAsFixed(2)}',
-                                      style: const TextStyle(
-                                          color: Colors.white70),
+                                      '\$${(data['price'] ?? 0).toStringAsFixed(2)}',
+                                      style: const TextStyle(color: Colors.white70),
                                     ),
                                   ],
                                 ),
@@ -107,11 +105,9 @@ class CartPage extends StatelessWidget {
                               Row(
                                 children: [
                                   IconButton(
-                                    icon: const Icon(Icons.remove_circle,
-                                        color: Colors.white),
+                                    icon: const Icon(Icons.remove_circle, color: Colors.white),
                                     onPressed: (data['quantity'] ?? 1) > 1
-                                        ? () => updateQuantity(
-                                            doc.id, data['quantity'] - 1)
+                                        ? () => updateQuantity(doc.id, data['quantity'] - 1)
                                         : null,
                                   ),
                                   Text(
@@ -119,16 +115,13 @@ class CartPage extends StatelessWidget {
                                     style: const TextStyle(color: Colors.white),
                                   ),
                                   IconButton(
-                                    icon: const Icon(Icons.add_circle,
-                                        color: Colors.white),
-                                    onPressed: () => updateQuantity(
-                                        doc.id, data['quantity'] + 1),
+                                    icon: const Icon(Icons.add_circle, color: Colors.white),
+                                    onPressed: () => updateQuantity(doc.id, data['quantity'] + 1),
                                   ),
                                 ],
                               ),
                               IconButton(
-                                icon: const Icon(Icons.delete_outline,
-                                    color: Colors.redAccent),
+                                icon: const Icon(Icons.delete_outline, color: Colors.redAccent),
                                 onPressed: () => deleteItem(doc.id),
                               ),
                             ],
@@ -150,8 +143,7 @@ class CartPage extends StatelessWidget {
                       }
                     }
                     return Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
                       decoration: const BoxDecoration(
                         color: Colors.black87,
                       ),
@@ -161,10 +153,9 @@ class CartPage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               const Text("Total",
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 18)),
+                                  style: TextStyle(color: Colors.white, fontSize: 18)),
                               Text(
-                                'Rs. ${total.toStringAsFixed(2)}',
+                                '\$${total.toStringAsFixed(2)}',
                                 style: const TextStyle(
                                   color: Color.fromRGBO(191, 155, 67, 1),
                                   fontWeight: FontWeight.bold,
