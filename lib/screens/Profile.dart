@@ -4,7 +4,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:spa_ceylon_mobile/widgets/BottomNavBar.dart';
 import 'package:spa_ceylon_mobile/widgets/top_greeting_bar.dart';
 import 'package:spa_ceylon_mobile/services/authService.dart';
-import 'package:spa_ceylon_mobile/screens/Login.dart'; // Ensure this matches your Login page path
+import 'package:spa_ceylon_mobile/screens/Login.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -16,7 +18,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   File? _profileImage;
   final picker = ImagePicker();
-  final AuthService _authService = AuthService(); // Add AuthService instance
+  final AuthService _authService = AuthService();
 
   Future<void> _pickImage() async {
     final picked = await picker.pickImage(source: ImageSource.gallery);
@@ -37,17 +39,17 @@ class _ProfilePageState extends State<ProfilePage> {
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
+                Navigator.of(context).pop();
               },
               child: const Text("No"),
             ),
             TextButton(
               onPressed: () async {
                 try {
-                  await _authService.signOut(); // Call signOut from AuthService
+                  await _authService.signOut();
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (context) => LoginPage()),
-                  ); // Redirect to Login page
+                  );
                 } catch (e) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
@@ -58,10 +60,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 }
               },
               style: TextButton.styleFrom(
-                backgroundColor:
-                    const Color(0xFFD1A73E), // Set background color
-                foregroundColor:
-                    Colors.black, // Set text/icon color for contrast
+                backgroundColor: const Color(0xFFD1A73E),
+                foregroundColor: Colors.black,
               ),
               child: const Text("Yes"),
             ),
@@ -73,104 +73,113 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: Stack(
-        children: [
-          // Background Image
-          Positioned.fill(
-            child: Image.asset(
-              'assets/images/background.jpg',
-              fit: BoxFit.cover,
-            ),
-          ),
+    final user = FirebaseAuth.instance.currentUser;
+    final cartStream = FirebaseFirestore.instance
+        .collection('users')
+        .doc(user?.uid)
+        .collection('cart')
+        .snapshots();
 
-          SafeArea(
-            child: Column(
-              children: [
-                topGreetingBar("Githmi"), // Replace with dynamic user name
-
-                const SizedBox(height: 30),
-
-                // Profile Image
-                GestureDetector(
-                  onTap: _pickImage,
-                  child: CircleAvatar(
-                    radius: 70,
-                    backgroundColor: Colors.transparent,
-                    backgroundImage: _profileImage != null
-                        ? FileImage(_profileImage!)
-                        : const AssetImage('assets/images/defaultpropic.png')
-                            as ImageProvider,
-                  ),
+    return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+      stream: cartStream,
+      builder: (context, snapshot) {
+        int cartItemCount = 0;
+        if (snapshot.hasData) {
+          for (var doc in snapshot.data!.docs) {
+            final data = doc.data();
+            cartItemCount += (data['quantity'] ?? 1) as int;
+          }
+        }
+        return Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Stack(
+            children: [
+              // Background Image
+              Positioned.fill(
+                child: Image.asset(
+                  'assets/images/background.jpg',
+                  fit: BoxFit.cover,
                 ),
-
-                const SizedBox(height: 40),
-
-                // Golden Buttons
-                buildGoldButton("Account Information", () {
-                  Navigator.pushNamed(context, '/account_information');
-                }),
-                buildGoldButton("Address Book", () {
-                  Navigator.pushNamed(context, '/address_book');
-                }),
-                buildGoldButton("Policies", () {}),
-                buildGoldButton("Help", () {}),
-
-                const SizedBox(height: 40),
-
-                // Logout Button
-                GestureDetector(
-                  onTap: _showLogoutConfirmation, // Trigger logout confirmation
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 40, vertical: 12),
-                    decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        colors: [
-                          Color(0xFFB63A3A),
-                          Color(0xFFE57373),
-                          Color(0xFFB63A3A),
-                        ],
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
+              ),
+              SafeArea(
+                child: Column(
+                  children: [
+                    topGreetingBar("Githmi"), // Replace with dynamic user name
+                    const SizedBox(height: 30),
+                    // Profile Image
+                    GestureDetector(
+                      onTap: _pickImage,
+                      child: CircleAvatar(
+                        radius: 70,
+                        backgroundColor: Colors.transparent,
+                        backgroundImage: _profileImage != null
+                            ? FileImage(_profileImage!)
+                            : const AssetImage('assets/images/defaultpropic.png')
+                                as ImageProvider,
                       ),
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black26,
-                          offset: Offset(0, 2),
-                          blurRadius: 4,
+                    ),
+                    const SizedBox(height: 40),
+                    // Golden Buttons
+                    buildGoldButton("Account Information", () {
+                      Navigator.pushNamed(context, '/account_information');
+                    }),
+                    buildGoldButton("Address Book", () {
+                      Navigator.pushNamed(context, '/address_book');
+                    }),
+                    buildGoldButton("Policies", () {}),
+                    buildGoldButton("Help", () {}),
+                    const SizedBox(height: 40),
+                    // Logout Button
+                    GestureDetector(
+                      onTap: _showLogoutConfirmation,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 40, vertical: 12),
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            colors: [
+                              Color(0xFFB63A3A),
+                              Color(0xFFE57373),
+                              Color(0xFFB63A3A),
+                            ],
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black26,
+                              offset: Offset(0, 2),
+                              blurRadius: 4,
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    child: const Text(
-                      "LOGOUT",
-                      style: TextStyle(
-                        color: Colors.white,
-                        letterSpacing: 1,
-                        fontWeight: FontWeight.bold,
+                        child: const Text(
+                          "LOGOUT",
+                          style: TextStyle(
+                            color: Colors.white,
+                            letterSpacing: 1,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
-                      textAlign: TextAlign.center,
                     ),
-                  ),
+                    const Spacer(),
+                  ],
                 ),
-
-                const Spacer(),
-
-                // Bottom Navigation Bar
-                //bottomNavBar(context, 4), // Index 4 = Profile
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
-      bottomNavigationBar: BottomNavBar(
-        currentIndex: 4, // Index 4 for profile
-        onTap: (index) {
-          // Navigation handled by the BottomNavBar
-        },
-      ),
+          bottomNavigationBar: BottomNavBar(
+            currentIndex: 4, // Index 4 for profile
+            onTap: (index) {
+              // Navigation handled by the BottomNavBar
+            },
+            cartItemCount: cartItemCount, // Always show cart count
+          ),
+        );
+      },
     );
   }
 

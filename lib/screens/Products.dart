@@ -169,119 +169,139 @@ class _ProductsPageState extends State<ProductsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          // Background image
-          Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/images/background.jpg"),
-                fit: BoxFit.cover,
+    final user = FirebaseAuth.instance.currentUser;
+    final cartStream = FirebaseFirestore.instance
+        .collection('users')
+        .doc(user?.uid)
+        .collection('cart')
+        .snapshots();
+
+    return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+      stream: cartStream,
+      builder: (context, snapshot) {
+        int cartItemCount = 0;
+        if (snapshot.hasData) {
+          for (var doc in snapshot.data!.docs) {
+            final data = doc.data();
+            cartItemCount += (data['quantity'] ?? 1) as int;
+          }
+        }
+        return Scaffold(
+          body: Stack(
+            children: [
+              // Background image
+              Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("assets/images/background.jpg"),
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
-            ),
-          ),
 
-          // Main content
-          SafeArea(
-            child: Column(
-              children: [
-                topGreetingBar("Githmi"),
+              // Main content
+              SafeArea(
+                child: Column(
+                  children: [
+                    topGreetingBar("Githmi"),
 
-                // Category title and filter
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0, vertical: 12),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        widget.categoryName.toUpperCase(),
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 1.2,
-                        ),
-                      ),
-                      ElevatedButton.icon(
-                        onPressed: () => _showFilterOptions(context),
-                        icon: Icon(Icons.filter_list,
-                            size: 20, color: Colors.black),
-                        label: Text(
-                          'Filter',
-                          style: TextStyle(fontSize: 16, color: Colors.black),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          foregroundColor: Colors.black,
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
+                    // Category title and filter
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16.0, vertical: 12),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            widget.categoryName.toUpperCase(),
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 1.2,
+                            ),
                           ),
-                          elevation: 2,
+                          ElevatedButton.icon(
+                            onPressed: () => _showFilterOptions(context),
+                            icon: Icon(Icons.filter_list,
+                                size: 20, color: Colors.black),
+                            label: Text(
+                              'Filter',
+                              style: TextStyle(fontSize: 16, color: Colors.black),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                              foregroundColor: Colors.black,
+                              padding:
+                                  EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              elevation: 2,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    // Product Grid
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        child: StreamBuilder<List<ProductModel>>(
+                          stream: _productService.getProductsByCategory(
+                            widget.categoryId,
+                            sortBy: _sortBy,
+                            descending: _descending,
+                          ),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return Center(child: CircularProgressIndicator());
+                            }
+                            if (snapshot.hasError) {
+                              return Center(
+                                  child: Text(
+                                      'Error loading products: ${snapshot.error}'));
+                            }
+                            final products = snapshot.data ?? [];
+                            if (products.isEmpty) {
+                              return Center(
+                                  child: Text(
+                                      'No products found for category: ${widget.categoryId}'));
+                            }
+
+                            return GridView.count(
+                              crossAxisCount: 2,
+                              mainAxisSpacing: 12,
+                              crossAxisSpacing: 12,
+                              childAspectRatio: 0.65,
+                              children: List.generate(products.length, (index) {
+                                final product = products[index];
+                                return productCard(
+                                  name: product.name,
+                                  price: product.price,
+                                  imageUrl: product.imageUrl,
+                                  rating: product.rating,
+                                );
+                              }),
+                            );
+                          },
                         ),
                       ),
-                    ],
-                  ),
-                ),
-
-                // Product Grid
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    child: StreamBuilder<List<ProductModel>>(
-                      stream: _productService.getProductsByCategory(
-                        widget.categoryId,
-                        sortBy: _sortBy,
-                        descending: _descending,
-                      ),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return Center(child: CircularProgressIndicator());
-                        }
-                        if (snapshot.hasError) {
-                          return Center(
-                              child: Text(
-                                  'Error loading products: ${snapshot.error}'));
-                        }
-                        final products = snapshot.data ?? [];
-                        if (products.isEmpty) {
-                          return Center(
-                              child: Text(
-                                  'No products found for category: ${widget.categoryId}'));
-                        }
-
-                        return GridView.count(
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 12,
-                          crossAxisSpacing: 12,
-                          childAspectRatio: 0.65,
-                          children: List.generate(products.length, (index) {
-                            final product = products[index];
-                            return productCard(
-                              name: product.name,
-                              price: product.price,
-                              imageUrl: product.imageUrl,
-                              rating: product.rating,
-                            );
-                          }),
-                        );
-                      },
                     ),
-                  ),
+                    
+                  ],
                 ),
-                
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
-      bottomNavigationBar: const BottomNavBar(
-        currentIndex: 0, // Set the current index for the Home tab
-      ),
+          bottomNavigationBar: BottomNavBar(
+            currentIndex: 0, // Set the current index for the Home tab
+            cartItemCount: cartItemCount, // Always show cart count
+          ),
+        );
+      },
     );
   }
 

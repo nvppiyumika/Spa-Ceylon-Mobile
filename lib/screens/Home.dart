@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:spa_ceylon_mobile/widgets/top_greeting_bar.dart';
@@ -67,6 +69,22 @@ class _WellnessHomePageState extends State<WellnessHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser;
+    final cartStream = FirebaseFirestore.instance
+        .collection('users')
+        .doc(user?.uid)
+        .collection('cart')
+        .snapshots();
+        return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+      stream: cartStream,
+      builder: (context, snapshot) {
+        int cartItemCount = 0;
+        if (snapshot.hasData) {
+          for (var doc in snapshot.data!.docs) {
+            final data = doc.data();
+            cartItemCount += (data['quantity'] ?? 1) as int;
+          }
+        }
     return Scaffold(
       body: Stack(
         children: [
@@ -203,9 +221,12 @@ class _WellnessHomePageState extends State<WellnessHomePage> {
           ),
         ],
       ),
-      bottomNavigationBar: const BottomNavBar(
-        currentIndex: 0, // Set the current index for the Home tab
+      bottomNavigationBar: BottomNavBar(
+        currentIndex: 0,
+        cartItemCount: cartItemCount, // Set the current index for the Home tab
       ),
     );
+        }
+      );
   }
 }
