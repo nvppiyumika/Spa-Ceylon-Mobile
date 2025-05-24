@@ -96,12 +96,12 @@ class CartPage extends StatelessWidget {
                                     ),
                                     const SizedBox(height: 4),
                                     Text(
-                                      '\$${(data['price'] ?? 0).toStringAsFixed(2)}',
+                                      '\Rs.${(data['price'] ?? 0).toStringAsFixed(2)}',
                                       style: const TextStyle(color: Colors.white70),
                                     ),
                                     const SizedBox(height: 4),
                                     Text(
-                                      'Total: \$${((data['price'] ?? 0) * (data['quantity'] ?? 1)).toStringAsFixed(2)}',
+                                      'Total: \Rs.${((data['price'] ?? 0) * (data['quantity'] ?? 1)).toStringAsFixed(2)}',
                                       style: const TextStyle(
                                         color: Color.fromRGBO(191, 155, 67, 1),
                                         fontWeight: FontWeight.bold,
@@ -163,7 +163,7 @@ class CartPage extends StatelessWidget {
                               const Text("Total",
                                   style: TextStyle(color: Colors.white, fontSize: 18)),
                               Text(
-                                '\$${total.toStringAsFixed(2)}',
+                                '\Rs.${total.toStringAsFixed(2)}',
                                 style: const TextStyle(
                                   color: Color.fromRGBO(191, 155, 67, 1),
                                   fontWeight: FontWeight.bold,

@@ -197,16 +197,14 @@ class _WellnessHomePageState extends State<WellnessHomePage> {
                     ),
                   ),
                 ),
-                BottomNavBar(
-                  currentIndex: 0,
-                  onTap: (index) {
-                    // Navigation handled by the BottomNavBar
-                  },
-                )
+                
               ],
             ),
           ),
         ],
+      ),
+      bottomNavigationBar: const BottomNavBar(
+        currentIndex: 0, // Set the current index for the Home tab
       ),
     );
   }
