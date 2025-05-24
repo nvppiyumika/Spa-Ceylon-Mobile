@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:spa_ceylon_mobile/widgets/BottomNavBar.dart';
 import 'package:spa_ceylon_mobile/widgets/top_greeting_bar.dart';
+import 'package:spa_ceylon_mobile/widgets/BottomNavBar.dart';
 
 class CartPage extends StatelessWidget {
   CartPage({super.key});
@@ -57,7 +57,7 @@ class CartPage extends StatelessWidget {
                           ),
                         );
                       }
-                      final cartDocs = snapshot.data!.docs;
+                      final cartDocs = snapshot.data?.docs ?? [];
                       double total = 0;
                       for (var doc in cartDocs) {
                         final data = doc.data();
@@ -98,6 +98,14 @@ class CartPage extends StatelessWidget {
                                     Text(
                                       '\$${(data['price'] ?? 0).toStringAsFixed(2)}',
                                       style: const TextStyle(color: Colors.white70),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      'Total: \$${((data['price'] ?? 0) * (data['quantity'] ?? 1)).toStringAsFixed(2)}',
+                                      style: const TextStyle(
+                                        color: Color.fromRGBO(191, 155, 67, 1),
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -205,9 +213,22 @@ class CartPage extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavBar(
-        currentIndex: 3,
-        onTap: (index) {},
+      bottomNavigationBar: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+        stream: getCartCollection().snapshots(),
+        builder: (context, snapshot) {
+          int cartItemCount = 0;
+          if (snapshot.hasData) {
+            for (var doc in snapshot.data!.docs) {
+              final data = doc.data();
+              cartItemCount += (data['quantity'] ?? 1) as int;
+            }
+          }
+          return BottomNavBar(
+            currentIndex: 3,
+            onTap: (index) {},
+            cartItemCount: cartItemCount,
+          );
+        },
       ),
     );
   }
