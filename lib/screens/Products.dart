@@ -273,16 +273,14 @@ class _ProductsPageState extends State<ProductsPage> {
                     ),
                   ),
                 ),
-                BottomNavBar(
-                  currentIndex: 0,
-                  onTap: (index) {
-                    // Navigation handled by the BottomNavBar
-                  },
-                ),
+                
               ],
             ),
           ),
         ],
+      ),
+      bottomNavigationBar: const BottomNavBar(
+        currentIndex: 0, // Set the current index for the Home tab
       ),
     );
   }
