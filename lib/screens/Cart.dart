@@ -5,7 +5,7 @@ import 'package:spa_ceylon_mobile/widgets/top_greeting_bar.dart';
 import 'package:spa_ceylon_mobile/widgets/BottomNavBar.dart';
 
 class CartPage extends StatelessWidget {
-  CartPage({super.key});
+  const CartPage({super.key});
 
   // Get current user's cart collection
   CollectionReference<Map<String, dynamic>> getCartCollection() {
@@ -96,12 +96,12 @@ class CartPage extends StatelessWidget {
                                     ),
                                     const SizedBox(height: 4),
                                     Text(
-                                      '\Rs.${(data['price'] ?? 0).toStringAsFixed(2)}',
+                                      'Rs.${(data['price'] ?? 0).toStringAsFixed(2)}',
                                       style: const TextStyle(color: Colors.white70),
                                     ),
                                     const SizedBox(height: 4),
                                     Text(
-                                      'Total: \Rs.${((data['price'] ?? 0) * (data['quantity'] ?? 1)).toStringAsFixed(2)}',
+                                      'Total: Rs.${((data['price'] ?? 0) * (data['quantity'] ?? 1)).toStringAsFixed(2)}',
                                       style: const TextStyle(
                                         color: Color.fromRGBO(191, 155, 67, 1),
                                         fontWeight: FontWeight.bold,
@@ -163,7 +163,7 @@ class CartPage extends StatelessWidget {
                               const Text("Total",
                                   style: TextStyle(color: Colors.white, fontSize: 18)),
                               Text(
-                                '\Rs.${total.toStringAsFixed(2)}',
+                                'Rs.${total.toStringAsFixed(2)}',
                                 style: const TextStyle(
                                   color: Color.fromRGBO(191, 155, 67, 1),
                                   fontWeight: FontWeight.bold,

@@ -13,23 +13,6 @@ class MessagesPage extends StatefulWidget {
 
 class _MessagesPageState extends State<MessagesPage> {
   int _currentIndex = 1;
-  final List<Map<String, String>> messages = const [
-    {
-      'sender': 'Wellness Bot',
-      'message': 'Welcome to our app!',
-      'time': '2 mins ago'
-    },
-    {
-      'sender': 'Admin',
-      'message': 'Don’t forget your daily check-in.',
-      'time': '1 hour ago'
-    },
-    {
-      'sender': 'Support',
-      'message': 'Your request has been received.',
-      'time': 'Yesterday'
-    },
-  ];
 
   void _onTabTapped(int index) {
     setState(() {
@@ -46,12 +29,20 @@ class _MessagesPageState extends State<MessagesPage> {
         .collection('cart')
         .snapshots();
 
+    // Stream for user messages
+    final messagesStream = FirebaseFirestore.instance
+        .collection('users')
+        .doc(user?.uid)
+        .collection('messages')
+        .orderBy('timestamp', descending: true)
+        .snapshots();
+
     return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
       stream: cartStream,
-      builder: (context, snapshot) {
+      builder: (context, cartSnapshot) {
         int cartItemCount = 0;
-        if (snapshot.hasData) {
-          for (var doc in snapshot.data!.docs) {
+        if (cartSnapshot.hasData) {
+          for (var doc in cartSnapshot.data!.docs) {
             final data = doc.data();
             cartItemCount += (data['quantity'] ?? 1) as int;
           }
@@ -72,34 +63,46 @@ class _MessagesPageState extends State<MessagesPage> {
                     topGreetingBar("Githmi"),
                     const SizedBox(height: 8),
                     Expanded(
-                      child: ListView.separated(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        itemCount: messages.length,
-                        separatorBuilder: (_, __) => const SizedBox(height: 10),
-                        itemBuilder: (context, index) {
-                          final message = messages[index];
-                          return Container(
-                            padding: const EdgeInsets.all(12),
-                            decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.85),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: ListTile(
-                              title: Text(
-                                message['sender'] ?? '',
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
+                      child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                        stream: messagesStream,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return const Center(child: CircularProgressIndicator());
+                          }
+                          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                            return const Center(child: Text('No messages yet.'));
+                          }
+                          final messages = snapshot.data!.docs;
+                          return ListView.separated(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            itemCount: messages.length,
+                            separatorBuilder: (_, __) => const SizedBox(height: 10),
+                            itemBuilder: (context, index) {
+                              final message = messages[index].data();
+                              return Container(
+                                padding: const EdgeInsets.all(12),
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.85),
+                                  borderRadius: BorderRadius.circular(12),
                                 ),
-                              ),
-                              subtitle: Text(message['message'] ?? ''),
-                              trailing: Text(
-                                message['time'] ?? '',
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.grey,
+                                child: ListTile(
+                                  title: Text(
+                                    message['sender'] ?? '',
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  subtitle: Text(message['message'] ?? ''),
+                                  trailing: Text(
+                                    message['time'] ?? '',
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
+                              );
+                            },
                           );
                         },
                       ),
@@ -110,8 +113,20 @@ class _MessagesPageState extends State<MessagesPage> {
                       child: SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: () {
-                            // Add your clear inbox logic here
+                          onPressed: () async {
+                            // Clear all messages in the user's messages subcollection
+                            final user = FirebaseAuth.instance.currentUser;
+                            final messagesRef = FirebaseFirestore.instance
+                                .collection('users')
+                                .doc(user?.uid)
+                                .collection('messages');
+
+                            final batch = FirebaseFirestore.instance.batch();
+                            final messagesSnapshot = await messagesRef.get();
+                            for (var doc in messagesSnapshot.docs) {
+                              batch.delete(doc.reference);
+                            }
+                            await batch.commit();
                           },
                           style: ElevatedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(vertical: 14),
