@@ -11,8 +11,7 @@ class Products extends StatelessWidget {
   final String categoryName;
 
   const Products(
-      {Key? key, required this.categoryId, required this.categoryName})
-      : super(key: key);
+      {super.key, required this.categoryId, required this.categoryName});
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +24,7 @@ class ProductsPage extends StatefulWidget {
   final String categoryName;
 
   const ProductsPage(
-      {Key? key, required this.categoryId, required this.categoryName})
-      : super(key: key);
+      {super.key, required this.categoryId, required this.categoryName});
 
   @override
   _ProductsPageState createState() => _ProductsPageState();
